@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React, { useState} from 'react'
 import { Button, TextInput } from 'react-native-paper' 
 import axios from 'axios'
@@ -29,7 +29,8 @@ const Signup = ({navigation}) => {
       firstname,
       email,
       password,
-      id_magasin: selectedStore ? selectedStore.id_magasin : '',
+      //modif ici id_magasin : null au lieu de '' (vide)
+      id_magasin: selectedStore ? selectedStore.id_magasin : null,
     }
     //appel axios post pour s'enregister
     axios.post('http://localhost:8080/signup', clientData)
@@ -38,6 +39,7 @@ const Signup = ({navigation}) => {
       // console.log('id', response.data.id)
       const userId = response.data.id
        const user = { id:userId ,firstname, lastname, email, password}; // Récupérez les données d'inscription du formulaire
+       
        console.log('user avec id', user)
        dispatch(registerUser(user)); // Dispatchez l'action pour mettre à jour l'utilisateur dans le store
 
@@ -99,7 +101,14 @@ const Signup = ({navigation}) => {
                 >
             S'INSCRIRE
             </Button>
+
+            <Text style ={{textAlign:'center'}}>Déja un compte ?</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('login')}>
+                <Text style={style.login}>Se Connecter</Text>
+            </TouchableOpacity>
             </View>
+
+            
     </View>
   )
 }
@@ -127,7 +136,13 @@ const style = StyleSheet.create({
     textAlign:'center',
     fontWeight:'bold',
     marginVertical:20
-  }
+  },
+  login:{
+    textAlign:'center',
+    color:'red',
+    fontWeight:'bold',
+    marginVertical:10
+}
 })
 
 export default Signup

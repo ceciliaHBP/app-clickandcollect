@@ -14,9 +14,11 @@ const Home =  ({navigation}) => {
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
+  console.log('user page Home', user)
+  // const { firstname, lastname, adresse } = user;
   const cart = useSelector((state) => state.cart.cart);
   const selectedStore = useSelector((state) => state.auth.selectedStore);
-  console.log('selected store page home:', selectedStore)
+  // console.log('selected store page home:', selectedStore)
   
   
 
@@ -81,7 +83,7 @@ const Home =  ({navigation}) => {
         <Text>Home</Text>
         
         {
-          user && <Text>Bonjour {user.firstname}</Text>
+          user && <Text>Bonjour {user.lastname} {user.firstname}</Text>
         }
          <Text>Point choisi: {selectedStore.nom_magasin}</Text>
         

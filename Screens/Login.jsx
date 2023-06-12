@@ -3,7 +3,7 @@ import React, {useState} from 'react'
 import { defaultStyle, inputStyling } from '../styles/styles'
 import { Button, TextInput } from 'react-native-paper'
 // import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-import { useDispatch} from 'react-redux'
+import { useDispatch, useSelector} from 'react-redux'
 import { loginUser, updateSelectedStore } from '../reducers/authSlice';
 
 import axios from 'axios'
@@ -35,8 +35,8 @@ const Login = ({navigation}) => {
             const res = await axios.post('http://localhost:8080/login', clientData)
             const user = res.data.user
             const selectedStoreId = user.id_magasin;
-            console.log('user page login', user)
-            console.log('user selectedstore page login', selectedStoreId)
+            // console.log('user page login', user)
+            // console.log('user selectedstore page login', selectedStoreId)
 
             axios.get(`http://localhost:8080/getOneStore/${selectedStoreId}`)
                 .then(storeResponse => {
@@ -48,6 +48,7 @@ const Login = ({navigation}) => {
                     // Continuez avec la navigation vers la page appropriée de votre application
                     
                     dispatch(loginUser(user))
+                  
                     console.log("user in Login.jsx", user)
                     navigation.navigate('home')
                     //champs de connexion vide (une fois connecté)

@@ -14,6 +14,8 @@ const Panier = ({navigation}) => {
   const dispatch = useDispatch()
 
   const cart = useSelector((state) => state.cart.cart);
+  const user = useSelector((state) => state.auth.user)
+  const store = useSelector((state) => state.auth.selectedStore)
   // console.log('cart', cart)
 
   const totalPrice = cart.reduce((total, item) => total + item.qty * item.prix, 0);
@@ -41,6 +43,15 @@ const Panier = ({navigation}) => {
   }
 
   const totalQuantity = cart.reduce((total, item) => total + item.qty, 0)
+
+  const handleConfirm = () => {
+    console.log('******')
+    console.log('Contenu du panier :', cart);
+    console.log('user', user)
+    console.log('magasin', store)
+    console.log('******')
+  }
+  
   return (
     
     <View style={{ ...defaultStyle, alignItems: 'center', backgroundColor: 'white', margin: 30, paddingHorizontal: 5 }}>
@@ -78,6 +89,7 @@ const Panier = ({navigation}) => {
           </Text>
           <Button 
               buttonColor='lightgray' 
+              onPress={handleConfirm}
           >Confirmer ma commande</Button>
         </View>
         
