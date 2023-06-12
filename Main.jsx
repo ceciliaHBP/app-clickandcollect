@@ -8,6 +8,7 @@ import Login from './Screens/Login'
 import Home from './Screens/Home'
 import Panier from './Screens/Panier'
 import Stores from './Screens/Stores'
+import OrderConfirmation from './Screens/OrderConfirmation'
 
 
 
@@ -23,6 +24,7 @@ const Main = () => {
             <Stack.Screen name="stores" component={Stores}/>
             <Stack.Screen name="home" component={Home}/>
             <Stack.Screen name="panier" component={Panier}/>
+            <Stack.Screen name="orderconfirm" component={OrderConfirmation}/>
         </Stack.Navigator>
     </NavigationContainer>
   )

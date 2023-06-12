@@ -50,6 +50,7 @@ const Panier = ({navigation}) => {
     console.log('user', user)
     console.log('magasin', store)
     console.log('******')
+    navigation.navigate('orderconfirm');
   }
   
   return (
