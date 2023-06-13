@@ -1,16 +1,28 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { useSelector } from 'react-redux';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
 import { defaultStyle} from '../styles/styles'
 import { Button} from 'react-native-paper'
+import { logoutUser} from '../reducers/authSlice';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
-const OrderConfirmation = () => {
+const OrderConfirmation = ({navigation}) => {
+  const dispatch = useDispatch()
   const user = useSelector(state => state.auth.user);
   const selectedStore = useSelector(state => state.auth.selectedStore);
   const cartItems = useSelector(state => state.cart.cart); 
 //   console.log('cart items', cartItems)
   const totalPrice = cartItems.reduce((total, item) => total + item.qty * item.prix, 0);
 //   console.log(totalPrice)
+
+
+const handleLogout = () => {
+  dispatch(logoutUser(selectedStore));
+  navigation.navigate('app')
+}
+const handleBack = () => {
+  navigation.navigate('home');
+};
 
 
 //ENVOI DE LA COMMANDE VERS LE SERVER
@@ -27,6 +39,10 @@ const OrderConfirmation = () => {
   // Utilisez les informations récupérées pour afficher les détails de la commande
   return (
     <View style={{ ...defaultStyle, alignItems: 'center', backgroundColor: 'white', margin: 30, paddingHorizontal: 5 }}>
+      <TouchableOpacity onPress={handleBack}>
+           <Icon name="arrow-back" size={30} color="#900" />
+         </TouchableOpacity>
+      <Icon name="logout" size={30} color="#000" onPress={() => handleLogout()}/>
     <View style={styles.container}>
       <Text>Contenu du panier :</Text>
       {cartItems.map(item => (

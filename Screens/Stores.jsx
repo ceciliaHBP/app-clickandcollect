@@ -12,6 +12,7 @@ const Stores = ({navigation}) => {
 
   const dispatch = useDispatch();
   const user = useSelector(state => state.auth.user);
+  // console.log('user dans Stores', user)
   const userId = useSelector(state => state.auth.user.id)
   // console.log('userId dans stores', userId),
 
@@ -39,6 +40,7 @@ const Stores = ({navigation}) => {
     //update du user
     if (selectedStore && user) {
       const updatedUser = { ...user, id_magasin: selectedStore.id_magasin };
+
       axios
         .put(`http://127.0.0.1:8080/updateOneUser/${userId}`, updatedUser)
         .then((response) => {

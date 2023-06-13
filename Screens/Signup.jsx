@@ -37,12 +37,14 @@ const Signup = ({navigation}) => {
     .then(response => {
       // console.log('client data', clientData)
       // console.log('id', response.data.id)
+      
+     
       const userId = response.data.id
        const user = { id:userId ,firstname, lastname, email, password}; // Récupérez les données d'inscription du formulaire
        
-       console.log('user avec id', user)
+      //  console.log('user avec id', user)
        dispatch(registerUser(user)); // Dispatchez l'action pour mettre à jour l'utilisateur dans le store
-
+       console.log('user dans signup', user)
        navigation.navigate('stores')
     })
     .catch(function (error) {

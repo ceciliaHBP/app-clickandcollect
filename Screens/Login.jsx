@@ -18,6 +18,8 @@ const inputOptions = {
 const Login = ({navigation}) => {
 
     const dispatch = useDispatch()
+    const selectedStore = useSelector(state => state.auth.selectedStore);
+    // console.log('1- selected store in login', selectedStore)
    
 
     const [email, setEmail] = useState("")
@@ -34,22 +36,20 @@ const Login = ({navigation}) => {
             //appel axios pour se loger
             const res = await axios.post('http://localhost:8080/login', clientData)
             const user = res.data.user
-            const selectedStoreId = user.id_magasin;
-            // console.log('user page login', user)
-            // console.log('user selectedstore page login', selectedStoreId)
+            //voir ici potentielle erreur
+            // const selectedStoreId = user.id_magasin;
+            const selectedStoreId = selectedStore.id_magasin;
+
+            //  console.log('2- selected store id', selectedStoreId)
 
             axios.get(`http://localhost:8080/getOneStore/${selectedStoreId}`)
                 .then(storeResponse => {
                     const selectedStore = storeResponse.data; // Récupérez les détails du magasin choisi
-                    console.log('store selectionnés' ,selectedStore)
+                    // console.log('3- store selectionné' ,selectedStore)
                     // Dispatchez l'action pour mettre à jour le magasin choisi dans le store
                      dispatch(updateSelectedStore(selectedStore));
-                     console.log('store selectionnés après dispatch Login.jsx' ,selectedStore)
-                    // Continuez avec la navigation vers la page appropriée de votre application
-                    
-                    dispatch(loginUser(user))
-                  
-                    console.log("user in Login.jsx", user)
+                     dispatch(loginUser(user))
+        
                     navigation.navigate('home')
                     //champs de connexion vide (une fois connecté)
                     //setEmail('');

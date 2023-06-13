@@ -1,8 +1,9 @@
 import { View, Text, Pressable, ScrollView , StyleSheet} from 'react-native'
+ import  Picker  from 'react-native-picker-select';
 import { defaultStyle} from '../styles/styles'
 import React, {useState, useEffect }from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { logoutUser, updateSelectedStore} from '../reducers/authSlice';
+import { logoutUser, updateSelectedStore, updateUser} from '../reducers/authSlice';
 import ProductCard from '../components/ProductCard'
 import axios from 'axios'
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -14,13 +15,27 @@ const Home =  ({navigation}) => {
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
-  console.log('user page Home', user)
+  // console.log('user page Home', user)
   // const { firstname, lastname, adresse } = user;
   const cart = useSelector((state) => state.cart.cart);
   const selectedStore = useSelector((state) => state.auth.selectedStore);
   // console.log('selected store page home:', selectedStore)
-  
-  
+
+  const [stores, setStores] = useState([]);
+
+  const allStores = async () => {
+    try {
+      const response = await axios.get('http://127.0.0.1:8080/getAllStores');
+      // console.log('all stores', response.data)
+      setStores(response.data);
+    } catch (error) {
+      console.error("Une erreur s'est produite :", error);
+    }
+  };
+
+  useEffect(() => {
+    allStores();
+  }, []);
 
   //total d'articles dans le panier pour le badge
   const totalQuantity = cart.reduce((total, item) => total + item.qty, 0);
@@ -70,7 +85,8 @@ const Home =  ({navigation}) => {
   }
  
   const handleLogout = () => {
-    dispatch(logoutUser());
+    // console.log('user logout', user)
+    dispatch(logoutUser(selectedStore)); // Passez l'id_magasin en tant qu'arguments
     navigation.navigate('app')
   }
  
@@ -85,7 +101,27 @@ const Home =  ({navigation}) => {
         {
           user && <Text>Bonjour {user.lastname} {user.firstname}</Text>
         }
-         <Text>Point choisi: {selectedStore.nom_magasin}</Text>
+         {/* <Text>Point choisi: {selectedStore.nom_magasin}</Text> */}
+
+        
+         <Picker
+              placeholder={{
+                  label: "Choisissez un magasin"
+                }}
+              value={selectedStore.nom_magasin}
+              onValueChange={(value) => {
+                const selected = stores.find((store) => store.nom_magasin === value);
+                dispatch(updateSelectedStore(selected));
+                dispatch(updateUser({ ...user, id_magasin: selected.id_magasin }));
+             
+              }}
+              items={stores.map((store) => ({
+                label: store.nom_magasin,
+                value: store.nom_magasin,
+              }))}
+              
+            />
+        
         
     
       </View>
