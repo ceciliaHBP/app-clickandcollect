@@ -1,5 +1,5 @@
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, ScrollView } from 'react-native'
-import React from 'react'
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, ScrollView, TextInput } from 'react-native'
+import React, { useState} from 'react'
 import { defaultStyle} from '../styles/styles'
 import { Button } from 'react-native-paper'
 import { useSelector, useDispatch } from 'react-redux';
@@ -12,6 +12,7 @@ import CartItem from '../components/CartItem';
 const Panier = ({navigation}) => {
 
   const dispatch = useDispatch()
+  const [promoCode, setPromoCode] = useState('');
 
   const cart = useSelector((state) => state.cart.cart);
   const user = useSelector((state) => state.auth.user)
@@ -19,6 +20,7 @@ const Panier = ({navigation}) => {
   // console.log('cart', cart)
 
   const totalPrice = cart.reduce((total, item) => total + item.qty * item.prix, 0);
+  // const discountedPrice = totalPrice - (totalPrice * parseFloat(promoCode) / 100);
 
   const handleBack = () => {
     navigation.navigate('home');
@@ -52,6 +54,30 @@ const Panier = ({navigation}) => {
     console.log('******')
     navigation.navigate('orderconfirm');
   }
+
+ //Promotion
+  const handleApplyDiscount = () => {
+    const updatedCart = cart.map(item => ({
+      ...item,
+      originalPrice: item.prix, // Ajouter une propriété pour stocker le prix d'origine
+      prix: item.prix - (item.prix * parseFloat(promoCode) / 100)
+    }));
+  
+    dispatch(updateCart(updatedCart));
+    setPromoCode('');
+  };
+  
+  // Restaurer le prix d'origine
+  const handleRemoveDiscount = () => {
+    const updatedCart = cart.map(item => ({
+      ...item,
+      prix: item.originalPrice 
+    }));
+  
+    dispatch(updateCart(updatedCart));
+    setPromoCode('');
+  };
+  
   
   return (
     
@@ -86,12 +112,26 @@ const Panier = ({navigation}) => {
             Total des quantités : {totalQuantity}
           </Text>
           <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 10 }}>
-            Total de la commande : {totalPrice} euros
+          Total de la commande : { totalPrice} euros
           </Text>
+
+          <View style={{ flexDirection:'row', alignItems:'center', gap: 10, marginVertical:10 }}>
+          <TextInput
+            value={promoCode}
+            onChangeText={(value) => setPromoCode(value)}
+            placeholder="Code promo"
+            style={{ width: 150, marginVertical: 10, borderWidth: 1, borderColor: 'lightgray', paddingHorizontal: 20, paddingVertical: 10 }}
+          />
+          <Icon name="done" size={30} color="#900" onPress={handleApplyDiscount} />
+          <Icon name="clear" size={30} color="#900" onPress={handleRemoveDiscount} />
+        </View>
+            
           <Button 
               buttonColor='lightgray' 
               onPress={handleConfirm}
           >Confirmer ma commande</Button>
+            
+          
         </View>
         
     </View>
