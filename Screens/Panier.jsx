@@ -4,6 +4,7 @@ import { defaultStyle} from '../styles/styles'
 import { Button } from 'react-native-paper'
 import { useSelector, useDispatch } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import axios from 'axios'
 
 
 import { removeFromCart, updateCart } from '../reducers/cartSlice';
@@ -57,14 +58,27 @@ const Panier = ({navigation}) => {
 
  //Promotion
   const handleApplyDiscount = () => {
-    const updatedCart = cart.map(item => ({
-      ...item,
-      originalPrice: item.prix, // Ajouter une propriété pour stocker le prix d'origine
-      prix: item.prix - (item.prix * parseFloat(promoCode) / 100)
-    }));
-  
-    dispatch(updateCart(updatedCart));
-    setPromoCode('');
+    axios.get(`http://localhost:8080/promocodes/${promoCode}`)
+    .then(response => {
+      const data = response.data;
+      if (data && data.active) {
+        const percentage = data.percentage;
+
+        const updatedCart = cart.map(item => ({
+          ...item,
+          originalPrice: item.prix,
+          prix: item.prix - (item.prix * percentage / 100)
+        }));
+
+        dispatch(updateCart(updatedCart));
+        setPromoCode('');
+      } else {
+        console.log('Code promo invalide ou non actif.');
+      }
+    })
+    .catch(error => {
+      console.error('Une erreur s\'est produite lors de l\'appel API :', error);
+    });
   };
   
   // Restaurer le prix d'origine
