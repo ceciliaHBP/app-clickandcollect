@@ -8,7 +8,7 @@ const initialState = {
     adresse: '',
     // Autres champs utilisateur
   },
-  selectedStore: null,
+  selectedStore: '',
 };
 
 const authSlice = createSlice({
@@ -34,13 +34,13 @@ const authSlice = createSlice({
         firstname: '',
         lastname: '',
         adresse: '',
-        id_magasin: action.payload.id_magasin
+        
       };
     },
     updateSelectedStore: (state, action) => {
       // state.selectedStore = action.payload;
       state.selectedStore = action.payload
-      state.user.id_magasin = action.payload.id_magasin;
+      // state.user.id_magasin = action.payload.id_magasin;
 
     },
     updateUser: (state, action) => {

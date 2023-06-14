@@ -1,4 +1,4 @@
-import { View, Text, Pressable, ScrollView , StyleSheet} from 'react-native'
+import { View, Text, Pressable, ScrollView , StyleSheet, Button } from 'react-native'
  import  Picker  from 'react-native-picker-select';
 import { defaultStyle} from '../styles/styles'
 import React, {useState, useEffect }from 'react'
@@ -7,19 +7,25 @@ import { logoutUser, updateSelectedStore, updateUser} from '../reducers/authSlic
 import ProductCard from '../components/ProductCard'
 import axios from 'axios'
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import DatePicker from 'react-native-date-picker'
 
 import { Badge } from 'react-native-paper';
+import { TouchableOpacity } from 'react-native';
 
 
 const Home =  ({navigation}) => {
 
+  const [date, setDate] = useState(new Date())
+  const [open, setOpen] = useState(false)
+
+  
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   // console.log('user page Home', user)
   // const { firstname, lastname, adresse } = user;
   const cart = useSelector((state) => state.cart.cart);
   const selectedStore = useSelector((state) => state.auth.selectedStore);
-  // console.log('selected store page home:', selectedStore)
+   console.log('selected store page home:', selectedStore)
 
   const [stores, setStores] = useState([]);
 
@@ -89,7 +95,18 @@ const Home =  ({navigation}) => {
     dispatch(logoutUser(selectedStore)); // Passez l'id_magasin en tant qu'arguments
     navigation.navigate('app')
   }
- 
+
+  //date formatée ou pas ? 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear().toString();
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${day}-${month}-${year} ${hours}h${minutes}`;
+  };
+
 
   return (
     <>
@@ -121,7 +138,26 @@ const Home =  ({navigation}) => {
               }))}
               
             />
+
+       
+        <TouchableOpacity onPress={() => setOpen(true)} >
+          <Text>Planifier votre commande</Text>
+        </TouchableOpacity>
+              <DatePicker
+                modal
+                open={open}
+                date={date}
+                onConfirm={(date) => {
+                  setOpen(false)
+                  setDate(date)
+                  console.log('date commande',formatDate(date) )
+                }}
+                onCancel={() => {
+                  setOpen(false)
+                }}
+              />
         
+
         
     
       </View>
