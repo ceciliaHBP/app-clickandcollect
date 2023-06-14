@@ -19,7 +19,7 @@ const Login = ({navigation}) => {
 
     const dispatch = useDispatch()
     const selectedStoreRedux = useSelector(state => state.auth.selectedStore);
-    console.log('1- selected store in login', selectedStoreRedux)
+    // console.log('1- selected store in login', selectedStoreRedux)
    
 
     const [email, setEmail] = useState("")
@@ -37,10 +37,10 @@ const Login = ({navigation}) => {
             const res = await axios.post('http://localhost:8080/login', clientData)
             const user = res.data.user
             //voir ici potentielle erreur
-            const selectedStoreId = user.id_magasin;
-            // const selectedStoreId = selectedStoreRedux.id_magasin;
+            // const selectedStoreId = user.id_magasin;
+            const selectedStoreId = selectedStoreRedux.id_magasin;
 
-             console.log('2- selected store id', selectedStoreId)
+            //  console.log('2- selected store id', selectedStoreId)
 
             axios.get(`http://localhost:8080/getOneStore/${selectedStoreId}`)
                 .then(storeResponse => {

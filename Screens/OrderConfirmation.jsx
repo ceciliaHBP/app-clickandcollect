@@ -14,6 +14,8 @@ const OrderConfirmation = ({navigation}) => {
 //   console.log('cart items', cartItems)
   const totalPrice = cartItems.reduce((total, item) => total + item.qty * item.prix, 0);
 //   console.log(totalPrice)
+const totalQuantity = cartItems.reduce((total, item) => total + item.qty, 0)
+// console.log('qty', totalQuantity)
 
 
 const handleLogout = () => {
@@ -33,6 +35,7 @@ const handleBack = () => {
     console.log('Utilisateur :', user);
     console.log('Magasin sélectionné :', selectedStore);
     console.log('Prix total :', totalPrice);
+    console.log('Nb de produits:', totalQuantity)
     console.log('******')
   }
  
@@ -55,6 +58,7 @@ const handleBack = () => {
       ))}
       <View>
         <Text> Prix total: {totalPrice} euros</Text>
+        <Text>Nb de produits: {totalQuantity}</Text>
       </View>
       <View style={{marginVertical:40}}>    
         <Text>Informations Client:</Text>
@@ -65,6 +69,8 @@ const handleBack = () => {
         {
             user.telephone ? <Text>Telephone : {user.telephone}</Text> : <Text>Telephone : <Text style={{color:'lightgray', fontStyle:'italic'}}>Non renseigné</Text></Text>
         }
+        <Text>Heure de retrait (à finaliser)</Text>
+        <Text>Choix de paiement: (à finaliser)</Text>
         
         <Text>Magasin : {selectedStore.nom_magasin}</Text>
       </View>

@@ -25,7 +25,7 @@ const Home =  ({navigation}) => {
   // const { firstname, lastname, adresse } = user;
   const cart = useSelector((state) => state.cart.cart);
   const selectedStore = useSelector((state) => state.auth.selectedStore);
-   console.log('selected store page home:', selectedStore)
+  //  console.log('selected store page home:', selectedStore)
 
   const [stores, setStores] = useState([]);
 
@@ -128,14 +128,28 @@ const Home =  ({navigation}) => {
               value={selectedStore.nom_magasin}
               onValueChange={(value) => {
                 const selected = stores.find((store) => store.nom_magasin === value);
-                dispatch(updateSelectedStore(selected));
+
+                if (selected) {
+                  dispatch(updateSelectedStore(selected));
                 dispatch(updateUser({ ...user, id_magasin: selected.id_magasin }));
-             
+
+                // requete vers le serveur pour modifier le choix du magasin dans la Table Clients
+                axios.put(`http://127.0.0.1:8080/updateOneUser/${user.id}`, {id_magasin: selected.id_magasin})
+                .then(response => {
+                  console.log('Le choix du magasin a été mis à jour avec succès dans la base de données');
+                  console.log(response.data)
+                })
+                .catch(error => {
+                  console.error('Erreur lors de la mise à jour du choix du magasin dans la base de données:', error);
+                });
               }}
+            }
               items={stores.map((store) => ({
                 label: store.nom_magasin,
                 value: store.nom_magasin,
               }))}
+               
+                
               
             />
 

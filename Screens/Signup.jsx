@@ -44,7 +44,7 @@ const Signup = ({navigation}) => {
        
       //  console.log('user avec id', user)
        dispatch(registerUser(user)); // Dispatchez l'action pour mettre à jour l'utilisateur dans le store
-       console.log('user dans signup', user)
+      //  console.log('user dans signup', user)
        navigation.navigate('stores')
     })
     .catch(function (error) {
