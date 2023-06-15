@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { defaultStyle} from '../styles/styles'
 import { Button} from 'react-native-paper'
@@ -11,8 +11,11 @@ const OrderConfirmation = ({navigation}) => {
   const user = useSelector(state => state.auth.user);
   const selectedStore = useSelector(state => state.auth.selectedStore);
   const cartItems = useSelector(state => state.cart.cart); 
+  const selectedDateString = useSelector((state) => state.cart.date)
 //   console.log('cart items', cartItems)
-  const totalPrice = cartItems.reduce((total, item) => total + item.qty * item.prix, 0);
+  // const totalPrice = cartItems.reduce((total, item) => total + item.qty * item.prix, 0);
+  const totalPrice = (cartItems.reduce((total, item) => total + item.qty * item.prix, 0)).toFixed(2);
+
 //   console.log(totalPrice)
 const totalQuantity = cartItems.reduce((total, item) => total + item.qty, 0)
 // console.log('qty', totalQuantity)
@@ -38,14 +41,25 @@ const handleBack = () => {
     console.log('Nb de produits:', totalQuantity)
     console.log('******')
   }
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear().toString();
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${day}-${month}-${year} ${hours}h${minutes}`;
+  };
  
   // Utilisez les informations récupérées pour afficher les détails de la commande
   return (
-    <View style={{ ...defaultStyle, alignItems: 'center', backgroundColor: 'white', margin: 30, paddingHorizontal: 5 }}>
-      <TouchableOpacity onPress={handleBack}>
-           <Icon name="arrow-back" size={30} color="#900" />
-         </TouchableOpacity>
-      <Icon name="logout" size={30} color="#000" onPress={() => handleLogout()}/>
+    <View style={{ ...defaultStyle, alignItems: 'center', backgroundColor: 'white', margin: 30, paddingHorizontal: 5 , paddingTop:10}}>
+
+      <View style={{flexDirection:'row', justifyContent:'space-between', width:"100%"}}>
+            <Icon name="arrow-back" size={30} color="#900" onPress={handleBack}/>
+            <Icon name="logout" size={30} color="#000" onPress={() => handleLogout()}/>
+      </View>
+      <ScrollView vertical showsVerticalScrollIndicator={false}>
     <View style={styles.container}>
       <Text>Contenu du panier :</Text>
       {cartItems.map(item => (
@@ -69,7 +83,11 @@ const handleBack = () => {
         {
             user.telephone ? <Text>Telephone : {user.telephone}</Text> : <Text>Telephone : <Text style={{color:'lightgray', fontStyle:'italic'}}>Non renseigné</Text></Text>
         }
-        <Text>Heure de retrait (à finaliser)</Text>
+        {
+          selectedDateString ? <Text>Retrait: {formatDate(selectedDateString) }</Text> : <Text>Retrait : <Text style={{color:'lightgray', fontStyle:'italic'}}>Non renseigné</Text></Text>
+        }
+        
+        
         <Text>Choix de paiement: (à finaliser)</Text>
         
         <Text>Magasin : {selectedStore.nom_magasin}</Text>
@@ -84,6 +102,7 @@ const handleBack = () => {
       
      
     </View>
+    </ScrollView>
     </View>
   );
 };

@@ -4,6 +4,7 @@ import { defaultStyle} from '../styles/styles'
 import React, {useState, useEffect }from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { logoutUser, updateSelectedStore, updateUser} from '../reducers/authSlice';
+import { addDate} from '../reducers/cartSlice';
 import ProductCard from '../components/ProductCard'
 import axios from 'axios'
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -25,6 +26,8 @@ const Home =  ({navigation}) => {
   // const { firstname, lastname, adresse } = user;
   const cart = useSelector((state) => state.cart.cart);
   const selectedStore = useSelector((state) => state.auth.selectedStore);
+  const selectedDateString = useSelector((state) => state.cart.date); //chaine de caractère
+  const selectedDate = new Date(selectedDateString); //objet Date
   //  console.log('selected store page home:', selectedStore)
 
   const [stores, setStores] = useState([]);
@@ -142,7 +145,10 @@ const Home =  ({navigation}) => {
                 .catch(error => {
                   console.error('Erreur lors de la mise à jour du choix du magasin dans la base de données:', error);
                 });
-              }}
+              }
+            else {
+              console.log('pas de magasin selectionné encore')
+            }}
             }
               items={stores.map((store) => ({
                 label: store.nom_magasin,
@@ -164,7 +170,12 @@ const Home =  ({navigation}) => {
                 onConfirm={(date) => {
                   setOpen(false)
                   setDate(date)
+                  dispatch(addDate(date.toISOString())); // Sauvegarder la date dans le store Redux
+                  //converti en chaine de caractères
                   console.log('date commande',formatDate(date) )
+                 
+                  console.log('selection date objet:', selectedDate)
+                  console.log('selection date chaine de caractère:', selectedDateString)
                 }}
                 onCancel={() => {
                   setOpen(false)

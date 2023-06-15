@@ -5,6 +5,7 @@ import { Button } from 'react-native-paper'
 import { useSelector, useDispatch } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import axios from 'axios'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 import { removeFromCart, updateCart } from '../reducers/cartSlice';
@@ -20,8 +21,8 @@ const Panier = ({navigation}) => {
   const store = useSelector((state) => state.auth.selectedStore)
   // console.log('cart', cart)
 
-  const totalPrice = cart.reduce((total, item) => total + item.qty * item.prix, 0);
-  // const discountedPrice = totalPrice - (totalPrice * parseFloat(promoCode) / 100);
+  // const totalPrice = cart.reduce((total, item) => total + item.qty * item.prix, 0);
+  const totalPrice = (cart.reduce((total, item) => total + item.qty * item.prix, 0)).toFixed(2);
 
   const handleBack = () => {
     navigation.navigate('home');
@@ -57,7 +58,14 @@ const Panier = ({navigation}) => {
   }
 
  //Promotion
-  const handleApplyDiscount = () => {
+  const handleApplyDiscount = async () => {
+    // test validité 1h token
+    // const token = await AsyncStorage.getItem('userToken');
+    // axios.get(`http://localhost:8080/promocodes/${promoCode}`, {
+    //   headers: {
+    //     'x-access-token': token
+    //   }
+    // })
     axios.get(`http://localhost:8080/promocodes/${promoCode}`)
     .then(response => {
       const data = response.data;

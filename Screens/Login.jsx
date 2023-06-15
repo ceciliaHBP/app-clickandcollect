@@ -5,6 +5,7 @@ import { Button, TextInput } from 'react-native-paper'
 // import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import { useDispatch, useSelector} from 'react-redux'
 import { loginUser, updateSelectedStore } from '../reducers/authSlice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import axios from 'axios'
 
@@ -36,9 +37,14 @@ const Login = ({navigation}) => {
             //appel axios pour se loger
             const res = await axios.post('http://localhost:8080/login', clientData)
             const user = res.data.user
-            //voir ici potentielle erreur
-            // const selectedStoreId = user.id_magasin;
-            const selectedStoreId = selectedStoreRedux.id_magasin;
+
+            // //stockage du token dans asyncstorage
+            // const token = res.data.token;
+            // console.log('token', token)
+            // await AsyncStorage.setItem('userToken', token);
+
+            const selectedStoreId = user.id_magasin;
+            // const selectedStoreId = selectedStoreRedux.id_magasin;
 
             //  console.log('2- selected store id', selectedStoreId)
 
