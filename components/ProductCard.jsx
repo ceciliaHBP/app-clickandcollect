@@ -12,7 +12,8 @@ const ProductCard = ({libelle, id, image, prix, qty  }) => {
 
     const dispatch = useDispatch()
     const cart = useSelector((state) => state.cart.cart);
-    const product = cart.find((item) => item.id === id);
+    const product = cart.find((item) => item.productId === id);
+    console.log('product', product)
 
 
     const baseUrl = 'http://127.0.0.1:8080';
@@ -24,12 +25,12 @@ const ProductCard = ({libelle, id, image, prix, qty  }) => {
 
     const incrementhandler = () => {
         const updatedCart = [...cart];
-        const existingProductIndex = updatedCart.findIndex((item) => item.id === id);
+        const existingProductIndex = updatedCart.findIndex((item) => item.productId === id);
     
         if (existingProductIndex !== -1) {
           updatedCart[existingProductIndex].qty += 1;
         } else {
-          updatedCart.push({ id, libelle, image, prix, qty: 1 });
+          updatedCart.push({ productId:id, libelle, image, prix, qty: 1 });
         }
     
         dispatch(updateCart(updatedCart));
@@ -37,7 +38,7 @@ const ProductCard = ({libelle, id, image, prix, qty  }) => {
    
     const decrementhandler = () => {
         const updatedCart = [...cart];
-        const existingProductIndex = updatedCart.findIndex((item) => item.id === id);
+        const existingProductIndex = updatedCart.findIndex((item) => item.productId === id);
     
         if (existingProductIndex !== -1) {
           if (updatedCart[existingProductIndex].qty > 1) {

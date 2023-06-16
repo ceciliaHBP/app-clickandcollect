@@ -237,8 +237,10 @@ const Home =  ({navigation}) => {
         
           <ScrollView vertical showsVerticalScrollIndicator={false}>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', width:"100%"}}>
+            
           {products
               .filter((item) =>
+             
                 selectedCategory ? item.categorie === selectedCategory : true
               )
               // .filter((item) => (selectedCategory === 'Tous les produits' ? true : item.categorie === selectedCategory))
@@ -246,11 +248,11 @@ const Home =  ({navigation}) => {
               .map((item, index) => (
                 <ProductCard
                   libelle={item.libelle}
-                  key={item.id_produit}
-                  id={item.id_produit}
+                  key={item.productId}
+                  id={item.productId}
                   index={index}
                   image={item.image}
-                  prix={item.prix}
+                  prix={item.prix_unitaire}
                   qty={item.qty}
                 />
               ))}

@@ -19,7 +19,7 @@ const Panier = ({navigation}) => {
   const cart = useSelector((state) => state.cart.cart);
   const user = useSelector((state) => state.auth.user)
   const store = useSelector((state) => state.auth.selectedStore)
-  // console.log('cart', cart)
+  console.log('cart', cart)
 
   // const totalPrice = cart.reduce((total, item) => total + item.qty * item.prix, 0);
   const totalPrice = (cart.reduce((total, item) => total + item.qty * item.prix, 0)).toFixed(2);
@@ -74,8 +74,8 @@ const Panier = ({navigation}) => {
 
         const updatedCart = cart.map(item => ({
           ...item,
-          originalPrice: item.prix,
-          prix: item.prix - (item.prix * percentage / 100)
+          originalPrice: item.prix_unitaire,
+          prix: item.prix_unitaire - (item.prix_unitaire * percentage / 100)
         }));
 
         dispatch(updateCart(updatedCart));
@@ -115,18 +115,22 @@ const Panier = ({navigation}) => {
           // paddingVertical: 40,
           flex: 1,
         }}>
-          {cart.map((item, index) => (
+          {cart.map((item, index) => {
+            console.log(item);  // Ajoutez cette ligne pour voir ce que contient chaque article
+            return (
               <CartItem 
-                  libelle = {item.libelle}
-                  prix = {item.prix}
-                  incrementhandler={() => incrementhandler(index)}
-                  decrementhandler={() => decrementhandler(index)}
-                  image={item.image}
-                  index={index}
-                  qty={item.qty}
-                  key={index}
+                libelle = {item.libelle}
+                prix = {item.prix_unitaire}
+                incrementhandler={() => incrementhandler(index)}
+                decrementhandler={() => decrementhandler(index)}
+                image={item.image}
+                index={index}
+                qty={item.qty}
+                key={index}
               />
-            ))}
+              );
+          })}
+              
        </ScrollView>
       
         <View  style={{ marginTop:10, alignItems:'center' }} >

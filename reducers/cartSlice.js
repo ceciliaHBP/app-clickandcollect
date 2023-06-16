@@ -42,7 +42,7 @@ const cartSlice = createSlice({
     addToCart: (state, action) => {
         const product = action.payload;
         const existingProductIndex = state.cart.findIndex(
-          (item) => item.id === product.id
+          (item) => item.productId === product.productId
         );
         if (existingProductIndex !== -1) {
           // Le produit existe déjà dans le panier, mettez à jour sa quantité
@@ -54,7 +54,7 @@ const cartSlice = createSlice({
       },
     removeFromCart: (state, action) => {
         const productId = action.payload;
-        state.cart = state.cart.filter((item) => item.id !== productId);
+        state.cart = state.cart.filter((item) => item.productId !== productId);
       },
     updateCart(state, action) {
         state.cart = action.payload;
