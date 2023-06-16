@@ -9,6 +9,7 @@ import Home from './Screens/Home'
 import Panier from './Screens/Panier'
 import Stores from './Screens/Stores'
 import OrderConfirmation from './Screens/OrderConfirmation'
+import ChoixPaiement from './Screens/ChoixPaiement'
 
 
 
@@ -24,7 +25,8 @@ const Main = () => {
             <Stack.Screen name="stores" component={Stores}/>
             <Stack.Screen name="home" component={Home}/>
             <Stack.Screen name="panier" component={Panier}/>
-            <Stack.Screen name="orderconfirm" component={OrderConfirmation}/>
+            <Stack.Screen name="choixpaiement" component={ChoixPaiement}/>
+            <Stack.Screen name="orderconfirm" component={OrderConfirmation}/> 
         </Stack.Navigator>
     </NavigationContainer>
   )

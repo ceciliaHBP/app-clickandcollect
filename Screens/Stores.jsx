@@ -12,9 +12,10 @@ const Stores = ({navigation}) => {
 
   const dispatch = useDispatch();
   const user = useSelector(state => state.auth.user);
-  // console.log('user dans Stores', user)
-  const userId = useSelector(state => state.auth.user.id)
-  // console.log('userId dans stores', userId),
+  console.log('user dans Stores', user)
+  //modif userId <= id
+  const userId = useSelector(state => state.auth.user.userId)
+   console.log('userId dans stores', userId),
 
   useEffect(() => {
     // Récupérer les magasins depuis la base de données
@@ -39,7 +40,8 @@ const Stores = ({navigation}) => {
     // console.log('user après validation', user);
     //update du user
     if (selectedStore && user) {
-      const updatedUser = { ...user, id_magasin: selectedStore.id_magasin };
+      const updatedUser = { ...user, storeId: selectedStore.storeId };
+      console.log('update user',updatedUser)
 
       axios
         .put(`http://127.0.0.1:8080/updateOneUser/${userId}`, updatedUser)
@@ -64,7 +66,7 @@ const Stores = ({navigation}) => {
 
             {stores.map(store => (
                 <TouchableOpacity
-                key={store.id_magasin}
+                key={store.storeId}
                 style={style.touchable}
                 onPress={() => handleStoreSelection(store)}
                 >

@@ -30,19 +30,19 @@ const Signup = ({navigation}) => {
       email,
       password,
       //modif ici id_magasin : null au lieu de '' (vide)
-      id_magasin: selectedStore ? selectedStore.id_magasin : null,
+      storeId: selectedStore ? selectedStore.storeId : null,
     }
     //appel axios post pour s'enregister
     axios.post('http://localhost:8080/signup', clientData)
     .then(response => {
       // console.log('client data', clientData)
-      // console.log('id', response.data.id)
+       console.log('response.data', response.data)
       
      
       const userId = response.data.id
-       const user = { id:userId ,firstname, lastname, email, password}; // Récupérez les données d'inscription du formulaire
+       const user = { userId:userId ,firstname, lastname, email, password}; // Récupérez les données d'inscription du formulaire
        
-      //  console.log('user avec id', user)
+        console.log('user avec id', user)
        dispatch(registerUser(user)); // Dispatchez l'action pour mettre à jour l'utilisateur dans le store
       //  console.log('user dans signup', user)
        navigation.navigate('stores')

@@ -43,7 +43,7 @@ const Login = ({navigation}) => {
             // console.log('token', token)
             // await AsyncStorage.setItem('userToken', token);
 
-            const selectedStoreId = user.id_magasin;
+            const selectedStoreId = user.storeId;
             // const selectedStoreId = selectedStoreRedux.id_magasin;
 
             //  console.log('2- selected store id', selectedStoreId)
