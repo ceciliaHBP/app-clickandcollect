@@ -19,10 +19,10 @@ const Panier = ({navigation}) => {
   const cart = useSelector((state) => state.cart.cart);
   const user = useSelector((state) => state.auth.user)
   const store = useSelector((state) => state.auth.selectedStore)
-  console.log('cart', cart)
+  //console.log('cart', cart)
 
   // const totalPrice = cart.reduce((total, item) => total + item.qty * item.prix, 0);
-  const totalPrice = (cart.reduce((total, item) => total + item.qty * item.prix, 0)).toFixed(2);
+  const totalPrice = (cart.reduce((total, item) => total + item.qty * item.prix_unitaire, 0)).toFixed(2);
 
   const handleBack = () => {
     navigation.navigate('home');
@@ -42,7 +42,7 @@ const Panier = ({navigation}) => {
       updatedCart[index].qty -= 1;
       dispatch(updateCart(updatedCart));
     } else {
-      dispatch(removeFromCart(updatedCart[index].id));
+      dispatch(removeFromCart(updatedCart[index].productId));
     }
   }
 
@@ -69,14 +69,21 @@ const Panier = ({navigation}) => {
     axios.get(`http://localhost:8080/promocodes/${promoCode}`)
     .then(response => {
       const data = response.data;
+      console.log('data', data)
       if (data && data.active) {
         const percentage = data.percentage;
 
+        // const updatedCart = cart.map(item => ({
+        //   ...item,
+        //   originalPrice: item.prix,
+        //   prix: item.prix - (item.prix * percentage / 100)
+        // }));
         const updatedCart = cart.map(item => ({
           ...item,
           originalPrice: item.prix_unitaire,
-          prix: item.prix_unitaire - (item.prix_unitaire * percentage / 100)
+          prix_unitaire: item.prix_unitaire - (item.prix_unitaire * percentage / 100)
         }));
+        console.log('upd', updatedCart)
 
         dispatch(updateCart(updatedCart));
         setPromoCode('');
@@ -93,7 +100,7 @@ const Panier = ({navigation}) => {
   const handleRemoveDiscount = () => {
     const updatedCart = cart.map(item => ({
       ...item,
-      prix: item.originalPrice 
+      prix_unitaire: item.originalPrice 
     }));
   
     dispatch(updateCart(updatedCart));
@@ -116,7 +123,7 @@ const Panier = ({navigation}) => {
           flex: 1,
         }}>
           {cart.map((item, index) => {
-            console.log(item);  // Ajoutez cette ligne pour voir ce que contient chaque article
+            //console.log('item prix unitaire',item.prix_unitaire);  // Ajoutez cette ligne pour voir ce que contient chaque article
             return (
               <CartItem 
                 libelle = {item.libelle}

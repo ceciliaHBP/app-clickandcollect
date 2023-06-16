@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 const CartItem = ({libelle, prix, incrementhandler, decrementhandler, image, qty}) => {
 
     const baseUrl = 'http://127.0.0.1:8080';
+    //console.log('prix_unitaire', prix)
 
   return (
     <View

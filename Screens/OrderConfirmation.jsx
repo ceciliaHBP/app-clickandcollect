@@ -14,7 +14,7 @@ const OrderConfirmation = ({navigation}) => {
   const selectedDateString = useSelector((state) => state.cart.date)
 //   console.log('cart items', cartItems)
   // const totalPrice = cartItems.reduce((total, item) => total + item.qty * item.prix, 0);
-  const totalPrice = (cartItems.reduce((total, item) => total + item.qty * item.prix, 0)).toFixed(2);
+  const totalPrice = (cartItems.reduce((total, item) => total + item.qty * item.prix_unitaire, 0)).toFixed(2);
 
 //   console.log(totalPrice)
 const totalQuantity = cartItems.reduce((total, item) => total + item.qty, 0)
@@ -65,7 +65,7 @@ const handleBack = () => {
       {cartItems.map(item => (
         <View key={item.id} style={styles.itemContainer}>
           <Text>{item.libelle}</Text>
-          <Text>Prix unitaire : {item.prix}</Text>
+          <Text>Prix unitaire : {item.prix_unitaire}</Text>
           <Text>Quantité : {item.qty}</Text>
           
         </View>

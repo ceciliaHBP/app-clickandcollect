@@ -28,7 +28,7 @@ const Home =  ({navigation}) => {
   const selectedStore = useSelector((state) => state.auth.selectedStore);
   const selectedDateString = useSelector((state) => state.cart.date); //chaine de caractère
   const selectedDate = new Date(selectedDateString); //objet Date
-  console.log('selected store page home:', selectedStore)
+  //console.log('selected store page home:', selectedStore)
 
   const [stores, setStores] = useState([]);
 

@@ -10,8 +10,11 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const ProductCard = ({libelle, id, image, prix, qty  }) => {
 
+  //console.log('prix product card', prix)
+
     const dispatch = useDispatch()
     const cart = useSelector((state) => state.cart.cart);
+    console.log('cart', cart)
     const product = cart.find((item) => item.productId === id);
     console.log('product', product)
 
@@ -30,7 +33,7 @@ const ProductCard = ({libelle, id, image, prix, qty  }) => {
         if (existingProductIndex !== -1) {
           updatedCart[existingProductIndex].qty += 1;
         } else {
-          updatedCart.push({ productId:id, libelle, image, prix, qty: 1 });
+          updatedCart.push({ productId:id, libelle, image, prix_unitaire:prix, qty: 1 });
         }
     
         dispatch(updateCart(updatedCart));
