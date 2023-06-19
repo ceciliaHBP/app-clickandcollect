@@ -4,7 +4,7 @@ import { defaultStyle} from '../styles/styles'
 import React, {useState, useEffect }from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { logoutUser, updateSelectedStore, updateUser} from '../reducers/authSlice';
-import { addDate} from '../reducers/cartSlice';
+import { addDate, addTime} from '../reducers/cartSlice';
 import ProductCard from '../components/ProductCard'
 import axios from 'axios'
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -17,7 +17,9 @@ import { TouchableOpacity } from 'react-native';
 const Home =  ({navigation}) => {
 
   const [date, setDate] = useState(new Date())
-  const [open, setOpen] = useState(false)
+  const [time, setTime] = useState(new Date())
+  const [openDate, setOpenDate] = useState(false)
+  const [openTime, setOpenTime] = useState(false)
 
   
   const dispatch = useDispatch();
@@ -26,8 +28,8 @@ const Home =  ({navigation}) => {
   // const { firstname, lastname, adresse } = user;
   const cart = useSelector((state) => state.cart.cart);
   const selectedStore = useSelector((state) => state.auth.selectedStore);
-  const selectedDateString = useSelector((state) => state.cart.date); //chaine de caractère
-  const selectedDate = new Date(selectedDateString); //objet Date
+  //const selectedDateString = useSelector((state) => state.cart.date); //chaine de caractère
+  //const selectedDate = new Date(selectedDateString); //objet Date
   //console.log('selected store page home:', selectedStore)
 
   const [stores, setStores] = useState([]);
@@ -105,9 +107,23 @@ const Home =  ({navigation}) => {
     const day = date.getDate().toString().padStart(2, '0');
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const year = date.getFullYear().toString();
-    const hours = date.getHours().toString().padStart(2, '0');
-    const minutes = date.getMinutes().toString().padStart(2, '0');
-    return `${day}-${month}-${year} ${hours}h${minutes}`;
+    //const hours = date.getHours().toString().padStart(2, '0');
+    //const minutes = date.getMinutes().toString().padStart(2, '0');
+    //return `${day}-${month}-${year} ${hours}h${minutes}`;
+    return `${day}-${month}-${year}`;
+
+  };
+  //date formatée ou pas ? 
+  const formatTime = (dateString) => {
+    const time = new Date(dateString);
+    //const day = date.getDate().toString().padStart(2, '0');
+    //const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    //const year = date.getFullYear().toString();
+    const hours = time.getHours().toString().padStart(2, '0');
+    const minutes = time.getMinutes().toString().padStart(2, '0');
+    //return `${day}-${month}-${year} ${hours}h${minutes}`;
+    return `${hours}h${minutes}`;
+
   };
 
 
@@ -164,26 +180,51 @@ const Home =  ({navigation}) => {
               
             />
 
-       
-        <TouchableOpacity onPress={() => setOpen(true)} >
-          <Text>Planifier votre commande</Text>
+       {/* Selection Jour */}
+        <TouchableOpacity onPress={() => setOpenDate(true)} >
+        <Text>{date ? <Text style={style.picker}>{formatDate(date)}</Text> : "Choisissez votre jour"}</Text>
         </TouchableOpacity>
               <DatePicker
                 modal
-                open={open}
+                open={openDate}
                 date={date}
+                mode="date"
                 onConfirm={(date) => {
-                  setOpen(false)
+                  setOpenDate(false)
                   setDate(date)
-                  dispatch(addDate(date.toISOString())); // Sauvegarder la date dans le store Redux
+                  dispatch(addDate(formatDate(date.toISOString()))); // Sauvegarder la date dans le store Redux
                   //converti en chaine de caractères
                   console.log('date commande',formatDate(date) )
-                 
-                  console.log('selection date objet:', selectedDate)
-                  console.log('selection date chaine de caractère:', selectedDateString)
+                
+                  //console.log('selection date store redux:', selectedDateString)
+                  //console.log('selection date chaine de caractère:', selectedDateString)
                 }}
                 onCancel={() => {
-                  setOpen(false)
+                  setOpenDate(false)
+                }}
+              />
+
+        {/* Selection Heure */}
+        <TouchableOpacity onPress={() => setOpenTime(true)} >
+        <Text>{time ? <Text style={style.picker}>{formatTime(time)}</Text> : "Choisissez votre heure"}</Text>
+        </TouchableOpacity>
+              <DatePicker
+                modal
+                open={openTime}
+                date={time}
+                mode="time"
+                onConfirm={(time) => {
+                  setOpenTime(false)
+                  setTime(time)
+                  dispatch(addTime(formatTime(time.toISOString())));
+                  //converti en chaine de caractères
+                  console.log('heure commande',formatTime(time))
+                
+                  //console.log('selection date store redux:', selectedDateString)
+                  //console.log('selection date chaine de caractère:', selectedDateString)
+                }}
+                onCancel={() => {
+                  setOpenTime(false)
                 }}
               />
         
@@ -273,6 +314,10 @@ const style = StyleSheet.create({
     top: -8,
     right: 40,
   },
+  picker:{
+    color:'red',
+    fontWeight:'bold'
+  }
 });
 
 export default Home

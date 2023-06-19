@@ -12,6 +12,9 @@ const OrderConfirmation = ({navigation}) => {
   const selectedStore = useSelector(state => state.auth.selectedStore);
   const cartItems = useSelector(state => state.cart.cart); 
   const selectedDateString = useSelector((state) => state.cart.date)
+  const selectedTime = useSelector((state) => state.cart.time)
+  console.log('date store', selectedDateString)
+  console.log('time store', selectedTime)
 //   console.log('cart items', cartItems)
   // const totalPrice = cartItems.reduce((total, item) => total + item.qty * item.prix, 0);
   const totalPrice = (cartItems.reduce((total, item) => total + item.qty * item.prix_unitaire, 0)).toFixed(2);
@@ -84,7 +87,10 @@ const handleBack = () => {
             user.telephone ? <Text>Telephone : {user.telephone}</Text> : <Text>Telephone : <Text style={{color:'lightgray', fontStyle:'italic'}}>Non renseigné</Text></Text>
         }
         {
-          selectedDateString ? <Text>Retrait: {formatDate(selectedDateString) }</Text> : <Text>Retrait : <Text style={{color:'lightgray', fontStyle:'italic'}}>Non renseigné</Text></Text>
+          selectedDateString ? <Text>Retrait: {selectedDateString }</Text> : <Text>Retrait : <Text style={{color:'lightgray', fontStyle:'italic'}}>Non renseigné</Text></Text>
+        }
+        {
+          selectedTime ? <Text>Heure: {selectedTime }</Text> : <Text>Heure : <Text style={{color:'lightgray', fontStyle:'italic'}}>Non renseigné</Text></Text>
         }
         
         
