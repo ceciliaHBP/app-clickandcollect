@@ -7,15 +7,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addPaiement} from '../reducers/cartSlice';
 
 const ChoixPaiement = ({navigation}) => {
+
+    const dispatch = useDispatch()
   
     const choixpaiement = useSelector((state) => state.cart.paiement)
-    // console.log('choix paiement:', choixpaiement)
+    console.log('choix paiement:', choixpaiement)
 
     const [paiement, setPaiement] = useState('')
 
     const submitHandlerPaiement = (value) => {
         setPaiement(value);
-        console.log('paiement', value);
+        dispatch(addPaiement(value))
+        console.log('choix paiement:', choixpaiement)
+        //console.log('paiement', value);
+        navigation.navigate('orderconfirm');
     }
 
   return (

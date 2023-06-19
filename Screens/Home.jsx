@@ -21,8 +21,10 @@ const Home =  ({navigation}) => {
   const [openDate, setOpenDate] = useState(false)
   const [openTime, setOpenTime] = useState(false)
 
-  //const dateR = useSelector((state) => state.cart.date)
-  //const timeR = useSelector((state) => state.cart.time)
+  const dateRedux = useSelector((state) => state.cart.date)
+  const timeRedux = useSelector((state) => state.cart.time)
+  console.log('home date',dateRedux)
+  console.log('home time',timeRedux)
  
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
@@ -192,7 +194,7 @@ const Home =  ({navigation}) => {
 
        {/* Selection Jour */}
         <TouchableOpacity onPress={() => setOpenDate(true)} >
-        <Text>{date ? <Text style={style.picker}>{formatDate(date)}</Text> : "Choisissez votre jour"}</Text>
+        <Text>{dateRedux ? <Text style={style.picker}>{dateRedux}</Text> : "Choisissez votre jour"}</Text>
         </TouchableOpacity>
               <DatePicker
                 modal
@@ -216,7 +218,7 @@ const Home =  ({navigation}) => {
 
         {/* Selection Heure */}
         <TouchableOpacity onPress={() => setOpenTime(true)} >
-        <Text>{time ? <Text style={style.picker}>{formatTime(time)}</Text> : "Choisissez votre heure"}</Text>
+        <Text>{timeRedux ? <Text style={style.picker}>{timeRedux}</Text> : "Choisissez votre heure"}</Text>
         </TouchableOpacity>
               <DatePicker
                 modal

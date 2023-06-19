@@ -13,8 +13,10 @@ const OrderConfirmation = ({navigation}) => {
   const cartItems = useSelector(state => state.cart.cart); 
   const selectedDateString = useSelector((state) => state.cart.date)
   const selectedTime = useSelector((state) => state.cart.time)
+  const paiement = useSelector((state) => state.cart.paiement)
   console.log('date store', selectedDateString)
   console.log('time store', selectedTime)
+  console.log('paiement store', paiement)
 //   console.log('cart items', cartItems)
   // const totalPrice = cartItems.reduce((total, item) => total + item.qty * item.prix, 0);
   const totalPrice = (cartItems.reduce((total, item) => total + item.qty * item.prix_unitaire, 0)).toFixed(2);
@@ -41,7 +43,10 @@ const handleBack = () => {
     console.log('Utilisateur :', user);
     console.log('Magasin sélectionné :', selectedStore);
     console.log('Prix total :', totalPrice);
-    console.log('Nb de produits:', totalQuantity)
+    console.log('Nb de produits:', totalQuantity);
+    console.log('Jour sélectionné', selectedDateString);
+    console.log('Heure de retrait', selectedTime)
+    console.log('type de paiement', paiement)
     console.log('******')
   }
   const formatDate = (dateString) => {
@@ -93,8 +98,16 @@ const handleBack = () => {
           selectedTime ? <Text>Heure: {selectedTime }</Text> : <Text>Heure : <Text style={{color:'lightgray', fontStyle:'italic'}}>Non renseigné</Text></Text>
         }
         
-        
-        <Text>Choix de paiement: (à finaliser)</Text>
+        {
+          paiement ? 
+          (
+          <>
+          { paiement === 'online'? ( <Text>Choix du paiement: En ligne</Text> ) : null }
+          { paiement === 'onsite'? ( <Text>Choix du paiement: Sur place</Text> ) : null }
+          </>
+          ) 
+          : <Text>Choix du paiement : <Text style={{color:'lightgray', fontStyle:'italic'}}>Non renseigné</Text></Text>
+        }
         
         <Text>Magasin : {selectedStore.nom_magasin}</Text>
       </View>
