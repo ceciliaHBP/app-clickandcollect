@@ -4,7 +4,7 @@ import { defaultStyle} from '../styles/styles'
 import React, {useState, useEffect }from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { logoutUser, updateSelectedStore, updateUser} from '../reducers/authSlice';
-import { addDate, addTime} from '../reducers/cartSlice';
+import { addDate, addTime, resetDateTime} from '../reducers/cartSlice';
 import ProductCard from '../components/ProductCard'
 import axios from 'axios'
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -20,7 +20,7 @@ const Home =  ({navigation}) => {
   const [time, setTime] = useState(new Date())
   const [openDate, setOpenDate] = useState(false)
   const [openTime, setOpenTime] = useState(false)
-
+  const [isLoggedIn, setIsLoggedIn] = useState(true)
   
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
@@ -57,6 +57,14 @@ const Home =  ({navigation}) => {
   const [ products, setProducts] = useState([])
   const [ categories, setCategories] = useState([])
   
+  useEffect(() => {
+    if (!isLoggedIn) {
+      setDate(new Date());
+      setTime(new Date());
+      setIsLoggedIn(true);
+    }
+  }, [isLoggedIn]);
+
   
   useEffect(() => {
     // Fonction pour récupérer les données de la base de données
@@ -98,6 +106,10 @@ const Home =  ({navigation}) => {
   const handleLogout = () => {
     // console.log('user logout', user)
     dispatch(logoutUser(selectedStore)); // Passez l'id_magasin en tant qu'arguments
+    dispatch(resetDateTime())
+    setDate(new Date())
+    setTime(new Date())
+    setIsLoggedIn(false);
     navigation.navigate('app')
   }
 
@@ -125,6 +137,14 @@ const Home =  ({navigation}) => {
     return `${hours}h${minutes}`;
 
   };
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      setDate(new Date());
+      setTime(new Date());
+      setIsLoggedIn(true);
+    }
+  }, [isLoggedIn]);
 
 
   return (
