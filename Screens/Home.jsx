@@ -16,12 +16,14 @@ import { TouchableOpacity } from 'react-native';
 
 const Home =  ({navigation}) => {
 
-  const [date, setDate] = useState(new Date())
-  const [time, setTime] = useState(new Date())
+  const [date, setDate] = useState()
+  const [time, setTime] = useState()
   const [openDate, setOpenDate] = useState(false)
   const [openTime, setOpenTime] = useState(false)
-  const [isLoggedIn, setIsLoggedIn] = useState(true)
-  
+
+  //const dateR = useSelector((state) => state.cart.date)
+  //const timeR = useSelector((state) => state.cart.time)
+ 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   //console.log('user page Home', user)
@@ -31,6 +33,8 @@ const Home =  ({navigation}) => {
   //const selectedDateString = useSelector((state) => state.cart.date); //chaine de caractère
   //const selectedDate = new Date(selectedDateString); //objet Date
   //console.log('selected store page home:', selectedStore)
+
+
 
   const [stores, setStores] = useState([]);
 
@@ -57,15 +61,9 @@ const Home =  ({navigation}) => {
   const [ products, setProducts] = useState([])
   const [ categories, setCategories] = useState([])
   
-  useEffect(() => {
-    if (!isLoggedIn) {
-      setDate(new Date());
-      setTime(new Date());
-      setIsLoggedIn(true);
-    }
-  }, [isLoggedIn]);
-
   
+
+
   useEffect(() => {
     // Fonction pour récupérer les données de la base de données
     const fetchData = async () => {
@@ -105,11 +103,12 @@ const Home =  ({navigation}) => {
  
   const handleLogout = () => {
     // console.log('user logout', user)
-    dispatch(logoutUser(selectedStore)); // Passez l'id_magasin en tant qu'arguments
     dispatch(resetDateTime())
-    setDate(new Date())
-    setTime(new Date())
-    setIsLoggedIn(false);
+    setDate(null)
+    setTime(null)
+    dispatch(logoutUser(selectedStore)); // Passez l'id_magasin en tant qu'arguments
+    
+    
     navigation.navigate('app')
   }
 
@@ -137,15 +136,6 @@ const Home =  ({navigation}) => {
     return `${hours}h${minutes}`;
 
   };
-
-  useEffect(() => {
-    if (!isLoggedIn) {
-      setDate(new Date());
-      setTime(new Date());
-      setIsLoggedIn(true);
-    }
-  }, [isLoggedIn]);
-
 
   return (
     <>
@@ -207,7 +197,7 @@ const Home =  ({navigation}) => {
               <DatePicker
                 modal
                 open={openDate}
-                date={date}
+                date={date ? new Date(date) : new Date()}
                 mode="date"
                 onConfirm={(date) => {
                   setOpenDate(false)
@@ -215,7 +205,7 @@ const Home =  ({navigation}) => {
                   dispatch(addDate(formatDate(date.toISOString()))); // Sauvegarder la date dans le store Redux
                   //converti en chaine de caractères
                   console.log('date commande',formatDate(date) )
-                
+                  //console.log('dateR', dateR)
                   //console.log('selection date store redux:', selectedDateString)
                   //console.log('selection date chaine de caractère:', selectedDateString)
                 }}
@@ -231,7 +221,7 @@ const Home =  ({navigation}) => {
               <DatePicker
                 modal
                 open={openTime}
-                date={time}
+                date={time ? new Date(time) : new Date()}
                 mode="time"
                 onConfirm={(time) => {
                   setOpenTime(false)
