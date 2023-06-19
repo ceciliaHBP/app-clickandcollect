@@ -14,9 +14,9 @@ const ProductCard = ({libelle, id, image, prix, qty  }) => {
 
     const dispatch = useDispatch()
     const cart = useSelector((state) => state.cart.cart);
-    console.log('cart', cart)
+    //console.log('cart', cart)
     const product = cart.find((item) => item.productId === id);
-    console.log('product', product)
+    //console.log('product', product)
 
 
     const baseUrl = 'http://127.0.0.1:8080';

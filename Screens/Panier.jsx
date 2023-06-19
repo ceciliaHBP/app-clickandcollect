@@ -83,7 +83,7 @@ const Panier = ({navigation}) => {
           originalPrice: item.prix_unitaire,
           prix_unitaire: item.prix_unitaire - (item.prix_unitaire * percentage / 100)
         }));
-        console.log('upd', updatedCart)
+        //console.log('upd', updatedCart)
 
         dispatch(updateCart(updatedCart));
         setPromoCode('');
