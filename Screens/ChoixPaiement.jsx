@@ -11,7 +11,7 @@ const ChoixPaiement = ({navigation}) => {
     const dispatch = useDispatch()
   
     const choixpaiement = useSelector((state) => state.cart.paiement)
-    console.log('choix paiement:', choixpaiement)
+    //console.log('choix paiement:', choixpaiement)
 
     const [paiement, setPaiement] = useState('')
 
@@ -28,22 +28,23 @@ const ChoixPaiement = ({navigation}) => {
         <View style={style.container}>
 
             <Text>Veuillez choisir votre choix de paiement </Text>
-
             
             <Button  
-            style={style.btn}
-            textColor='white'
-            value="online"
-            onPress={() => submitHandlerPaiement('online')}>
-                En ligne</Button>
+                style={style.btn}
+                textColor='white'
+                value="online"
+                onPress={() => submitHandlerPaiement('online')}>
+                En ligne
+            </Button>
 
-                <Button  
-            style={style.btn}
-            textColor='white'
-            value="online"
-            onPress={() => submitHandlerPaiement('onsite')}>
-               Sur Place</Button>
-
+            <Button  
+                style={style.btn}
+                textColor='white'
+                value="online"
+                disabled
+                onPress={() => submitHandlerPaiement('onsite')}>
+                Sur Place
+            </Button>
 
         </View>
         

@@ -22,9 +22,9 @@ const Home =  ({navigation}) => {
   const [openTime, setOpenTime] = useState(false)
 
   const dateRedux = useSelector((state) => state.cart.date)
-  const timeRedux = useSelector((state) => state.cart.time)
+  //const timeRedux = useSelector((state) => state.cart.time)
   console.log('home date',dateRedux)
-  console.log('home time',timeRedux)
+  //console.log('home time',timeRedux)
  
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
@@ -107,7 +107,7 @@ const Home =  ({navigation}) => {
     // console.log('user logout', user)
     dispatch(resetDateTime())
     setDate(null)
-    setTime(null)
+    //setTime(null)
     dispatch(logoutUser(selectedStore)); // Passez l'id_magasin en tant qu'arguments
     
     
@@ -217,7 +217,8 @@ const Home =  ({navigation}) => {
               />
 
         {/* Selection Heure */}
-        <TouchableOpacity onPress={() => setOpenTime(true)} >
+        {/* non visible pour les collaborateurs car heure = tournée du camion */}
+        {/* <TouchableOpacity onPress={() => setOpenTime(true)} >
         <Text>{timeRedux ? <Text style={style.picker}>{timeRedux}</Text> : "Choisissez votre heure"}</Text>
         </TouchableOpacity>
               <DatePicker
@@ -238,7 +239,7 @@ const Home =  ({navigation}) => {
                 onCancel={() => {
                   setOpenTime(false)
                 }}
-              />
+              /> */}
         
 
         

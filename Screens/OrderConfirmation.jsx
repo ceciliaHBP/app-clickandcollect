@@ -12,10 +12,10 @@ const OrderConfirmation = ({navigation}) => {
   const selectedStore = useSelector(state => state.auth.selectedStore);
   const cartItems = useSelector(state => state.cart.cart); 
   const selectedDateString = useSelector((state) => state.cart.date)
-  const selectedTime = useSelector((state) => state.cart.time)
+  //const selectedTime = useSelector((state) => state.cart.time)
   const paiement = useSelector((state) => state.cart.paiement)
   console.log('date store', selectedDateString)
-  console.log('time store', selectedTime)
+  //console.log('time store', selectedTime)
   console.log('paiement store', paiement)
 //   console.log('cart items', cartItems)
   // const totalPrice = cartItems.reduce((total, item) => total + item.qty * item.prix, 0);
@@ -45,7 +45,7 @@ const handleBack = () => {
     console.log('Prix total :', totalPrice);
     console.log('Nb de produits:', totalQuantity);
     console.log('Jour sélectionné', selectedDateString);
-    console.log('Heure de retrait', selectedTime)
+    //console.log('Heure de retrait', selectedTime)
     console.log('type de paiement', paiement)
     console.log('******')
   }
@@ -94,9 +94,10 @@ const handleBack = () => {
         {
           selectedDateString ? <Text>Retrait: {selectedDateString }</Text> : <Text>Retrait : <Text style={{color:'lightgray', fontStyle:'italic'}}>Non renseigné</Text></Text>
         }
-        {
+        {/* non visible pour les collaborateurs car tournée du camion */}
+        {/* {
           selectedTime ? <Text>Heure: {selectedTime }</Text> : <Text>Heure : <Text style={{color:'lightgray', fontStyle:'italic'}}>Non renseigné</Text></Text>
-        }
+        } */}
         
         {
           paiement ? 
