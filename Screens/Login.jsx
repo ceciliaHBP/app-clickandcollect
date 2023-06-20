@@ -6,6 +6,7 @@ import { Button, TextInput } from 'react-native-paper'
 import { useDispatch, useSelector} from 'react-redux'
 import { loginUser, updateSelectedStore } from '../reducers/authSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Toast} from 'react-native-toast-message/lib/src/Toast';
 
 import axios from 'axios'
 
@@ -60,14 +61,24 @@ const Login = ({navigation}) => {
                     //champs de connexion vide (une fois connecté)
                     //setEmail('');
                     //setPassword('');
+                    return Toast.show({
+                        type: 'success',
+                        text1: `Connexion réussie`,
+                        text2: `Bienvenue ${user.firstname} ${user.lastname} ` 
+                      });
                 })
                 .catch(error => {
-                    console.error('Erreur lors de la récupération des informations du magasin:', error);
+                    // console.error('Erreur lors de la récupération des informations du magasin:', error);
                 });
   
            
         }catch (error){
             console.log(error)
+            return Toast.show({
+                type: 'error',
+                text1: `Echec de connexion`,
+                text2: `Rentrez correctement votre email et mot de passe` 
+              });
         }
     }
     
