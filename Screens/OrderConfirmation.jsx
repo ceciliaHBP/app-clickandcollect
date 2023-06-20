@@ -9,6 +9,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 const OrderConfirmation = ({navigation}) => {
   const dispatch = useDispatch()
   const user = useSelector(state => state.auth.user);
+  //console.log('user', user)
   const selectedStore = useSelector(state => state.auth.selectedStore);
   const cartItems = useSelector(state => state.cart.cart); 
   const selectedDateString = useSelector((state) => state.cart.date)
@@ -17,7 +18,7 @@ const OrderConfirmation = ({navigation}) => {
   console.log('date store', selectedDateString)
   //console.log('time store', selectedTime)
   console.log('paiement store', paiement)
-//   console.log('cart items', cartItems)
+  //console.log('cart items', cartItems)
   // const totalPrice = cartItems.reduce((total, item) => total + item.qty * item.prix, 0);
   const totalPrice = (cartItems.reduce((total, item) => total + item.qty * item.prix_unitaire, 0)).toFixed(2);
 
@@ -40,7 +41,8 @@ const handleBack = () => {
     console.log('******')
     console.log('Envoi de la commande au serveur - test')
     console.log('Contenu du panier :', cartItems);
-    console.log('Utilisateur :', user);
+    console.log('Nom:', user.lastname);
+    console.log('Prénom', user.firstname)
     console.log('Magasin sélectionné :', selectedStore);
     console.log('Prix total :', totalPrice);
     console.log('Nb de produits:', totalQuantity);
@@ -71,7 +73,7 @@ const handleBack = () => {
     <View style={styles.container}>
       <Text>Contenu du panier :</Text>
       {cartItems.map(item => (
-        <View key={item.id} style={styles.itemContainer}>
+        <View key={item.productId} style={styles.itemContainer}>
           <Text>{item.libelle}</Text>
           <Text>Prix unitaire : {item.prix_unitaire}</Text>
           <Text>Quantité : {item.qty}</Text>

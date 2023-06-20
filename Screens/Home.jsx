@@ -12,18 +12,18 @@ import DatePicker from 'react-native-date-picker'
 
 import { Badge } from 'react-native-paper';
 import { TouchableOpacity } from 'react-native';
+import {Toast} from 'react-native-toast-message/lib/src/Toast';
 
 
 const Home =  ({navigation}) => {
 
-  const [date, setDate] = useState()
-  const [time, setTime] = useState()
+  const [date, setDate] = useState(null)
   const [openDate, setOpenDate] = useState(false)
-  const [openTime, setOpenTime] = useState(false)
-
   const dateRedux = useSelector((state) => state.cart.date)
-  //const timeRedux = useSelector((state) => state.cart.time)
   console.log('home date',dateRedux)
+  //const [time, setTime] = useState()
+  //const [openTime, setOpenTime] = useState(false)
+  //const timeRedux = useSelector((state) => state.cart.time)
   //console.log('home time',timeRedux)
  
   const dispatch = useDispatch();
@@ -36,7 +36,7 @@ const Home =  ({navigation}) => {
   //const selectedDate = new Date(selectedDateString); //objet Date
   //console.log('selected store page home:', selectedStore)
 
-
+  // const [selectedDate, setSelectedDate] = useState(null);
 
   const [stores, setStores] = useState([]);
 
@@ -89,7 +89,9 @@ const Home =  ({navigation}) => {
       }
     };
 
+
     fetchData(); // Appel de la fonction fetchData lors du montage du composant
+
   }, []);
 
 
@@ -109,8 +111,6 @@ const Home =  ({navigation}) => {
     setDate(null)
     //setTime(null)
     dispatch(logoutUser(selectedStore)); // Passez l'id_magasin en tant qu'arguments
-    
-    
     navigation.navigate('app')
   }
 
@@ -126,18 +126,25 @@ const Home =  ({navigation}) => {
     return `${day}-${month}-${year}`;
 
   };
-  //date formatée ou pas ? 
-  const formatTime = (dateString) => {
-    const time = new Date(dateString);
-    //const day = date.getDate().toString().padStart(2, '0');
-    //const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    //const year = date.getFullYear().toString();
-    const hours = time.getHours().toString().padStart(2, '0');
-    const minutes = time.getMinutes().toString().padStart(2, '0');
-    //return `${day}-${month}-${year} ${hours}h${minutes}`;
-    return `${hours}h${minutes}`;
+  // heure non formaté pour l'instant - inutile pour les collaborateurs
+  // const formatTime = (dateString) => {
+  //   const time = new Date(dateString);
+  //   //const day = date.getDate().toString().padStart(2, '0');
+  //   //const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  //   //const year = date.getFullYear().toString();
+  //   const hours = time.getHours().toString().padStart(2, '0');
+  //   const minutes = time.getMinutes().toString().padStart(2, '0');
+  //   //return `${day}-${month}-${year} ${hours}h${minutes}`;
+  //   return `${hours}h${minutes}`;
+  // };
 
+  const isTomorrowOrLater = (selectedDate) => {
+    const currentDate = new Date();
+    currentDate.setHours(23, 59, 0, 0); // Set current date to today at 23:59
+
+    return selectedDate >= currentDate;
   };
+ 
 
   return (
     <>
@@ -194,7 +201,19 @@ const Home =  ({navigation}) => {
 
        {/* Selection Jour */}
         <TouchableOpacity onPress={() => setOpenDate(true)} >
-        <Text>{dateRedux ? <Text style={style.picker}>{dateRedux}</Text> : "Choisissez votre jour"}</Text>
+        {/* <Text>{dateRedux ? <Text style={style.picker}>{dateRedux}</Text> : "Choisissez votre jour"}</Text> */}
+        <Text>
+          {date ? (
+            isTomorrowOrLater(date) ? (
+              <Text style={style.picker}>{formatDate(date)}</Text>
+            ) : (
+              "Il est trop tard pour commander pour  demain"
+            )
+          ) : (
+            "Choisissez votre jour"
+          )}
+        </Text>
+
         </TouchableOpacity>
               <DatePicker
                 modal
@@ -203,17 +222,37 @@ const Home =  ({navigation}) => {
                 mode="date"
                 onConfirm={(date) => {
                   setOpenDate(false)
-                  setDate(date)
-                  dispatch(addDate(formatDate(date.toISOString()))); // Sauvegarder la date dans le store Redux
+
+                //test date
+                if (isTomorrowOrLater(date)) {
+                  setDate(date);
+                  dispatch(addDate(formatDate(date.toISOString())));
                   //converti en chaine de caractères
-                  console.log('date commande',formatDate(date) )
+                 console.log('date commande',formatDate(date) )
                   //console.log('dateR', dateR)
                   //console.log('selection date store redux:', selectedDateString)
                   //console.log('selection date chaine de caractère:', selectedDateString)
+                  return Toast.show({
+                    type: 'success',
+                    text1: 'Succès',
+                    text2: `Commande prévue pour ${formatDate(date)}`
+                  });
+                } else {
+                  setDate(null)
+                  dispatch(addDate(null))
+                  console.log('La date sélectionnée doit être supérieure ou égale à demain');
+                  return Toast.show({
+                    type: 'error',
+                    text1: 'Erreur, Vous arrivez trop tard pour demain',
+                    text2: 'Veuillez selectionner une nouvelle date'
+                  });
+                } 
                 }}
                 onCancel={() => {
                   setOpenDate(false)
                 }}
+                minimumDate={new Date()}
+                
               />
 
         {/* Selection Heure */}
