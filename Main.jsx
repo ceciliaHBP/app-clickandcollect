@@ -10,6 +10,7 @@ import Panier from './Screens/Panier'
 import Stores from './Screens/Stores'
 import OrderConfirmation from './Screens/OrderConfirmation'
 import ChoixPaiement from './Screens/ChoixPaiement'
+import  Toast  from 'react-native-toast-message'
 
 
 
@@ -28,6 +29,8 @@ const Main = () => {
             <Stack.Screen name="choixpaiement" component={ChoixPaiement}/>
             <Stack.Screen name="orderconfirm" component={OrderConfirmation}/> 
         </Stack.Navigator>
+
+        <Toast  position="bottom"/>
     </NavigationContainer>
   )
 }
