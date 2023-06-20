@@ -28,7 +28,7 @@ const Home =  ({navigation}) => {
  
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
-  console.log('user role', user)
+  //console.log('user role', user)
   // const { firstname, lastname, adresse } = user;
   const cart = useSelector((state) => state.cart.cart);
   const selectedStore = useSelector((state) => state.auth.selectedStore);
@@ -40,7 +40,7 @@ const Home =  ({navigation}) => {
 
   const [stores, setStores] = useState([]);
   const [role, setRole] = useState('');
-  console.log('role', role)
+  //console.log('role', role)
 
   const allStores = async () => {
     try {
@@ -60,7 +60,7 @@ const Home =  ({navigation}) => {
     // Effectuez une requête GET pour récupérer le rôle de l'utilisateur
     axios.get(`http://127.0.0.1:8080/getOne/${user.userId}`)
       .then(response => {
-        console.log(response.data.role)
+        //console.log(response.data.role)
         const role  = response.data.role;
          setRole(role);
       })
@@ -77,24 +77,15 @@ const Home =  ({navigation}) => {
   const [ selectedCategory, setSelectedCategory] = useState(null)
   const [ products, setProducts] = useState([])
   const [ categories, setCategories] = useState([])
-  
-  
-
 
   useEffect(() => {
     // Fonction pour récupérer les données de la base de données
     const fetchData = async () => {
       try {
-        // const response = await axios.get('http://127.0.0.1:8080/getAllProducts');
-        // // console.log('element', elements)
-        // // console.log("response", response)
-        // setProducts(response.data);
-        // setCategories(response.data.map((product) => product.categorie));
-
       const response = await axios.get('http://127.0.0.1:8080/getAllProducts');
       const updatedProducts = response.data.map((product) => ({
         ...product,
-        qty: 0, // Initial quantity set to 0
+        qty: 0, 
       }));
       setProducts(updatedProducts);
       setCategories([...new Set(updatedProducts.map((product) => product.categorie)), 'Tous']);
@@ -103,10 +94,7 @@ const Home =  ({navigation}) => {
         console.error('Une erreur s\'est produite :', error);
       }
     };
-
-
     fetchData(); // Appel de la fonction fetchData lors du montage du composant
-
   }, []);
 
 
@@ -121,11 +109,10 @@ const Home =  ({navigation}) => {
   }
  
   const handleLogout = () => {
-    // console.log('user logout', user)
     dispatch(resetDateTime())
     setDate(null)
-    //setTime(null)
-    dispatch(logoutUser(selectedStore)); // Passez l'id_magasin en tant qu'arguments
+    setTime(null)
+    dispatch(logoutUser(selectedStore)); 
     navigation.navigate('app')
   }
 
@@ -156,7 +143,6 @@ const Home =  ({navigation}) => {
   const isTomorrowOrLater = (selectedDate) => {
     const currentDate = new Date();
     currentDate.setHours(23, 59, 0, 0); // Set current date to today at 23:59
-
     return selectedDate >= currentDate;
   };
  
@@ -169,7 +155,7 @@ const Home =  ({navigation}) => {
         <Text>Home</Text>
         
         {
-          user && <Text>Bonjour {user.lastname} {user.firstname}</Text>
+          user && <Text>Bonjour {user.firstname} {user.lastname} </Text>
         }
          {/* <Text>Point choisi: {selectedStore.nom_magasin}</Text> */}
 
@@ -181,21 +167,17 @@ const Home =  ({navigation}) => {
               value={selectedStore.nom_magasin}
               onValueChange={(value) => {
                 const selected = stores.find((store) => store.nom_magasin === value);
-                console.log('user', user)
+                //console.log('user', user)
 
                 if (selected) {
                   dispatch(updateSelectedStore(selected));
                 // dispatch(updateUser({ ...user, id_magasin: selected.id_magasin }));
                 dispatch(updateUser({ ...user, storeId: selected.storeId }));
 
-
-                // requete vers le serveur pour modifier le choix du magasin dans la Table Clients
-                // axios.put(`http://127.0.0.1:8080/updateOneUser/${user.id}`, {id_magasin: selected.id_magasin})
-
                 axios.put(`http://127.0.0.1:8080/updateOneUser/${user.userId}`, {storeId: selected.storeId})
                 .then(response => {
-                  console.log('Le choix du magasin a été mis à jour avec succès dans la base de données');
-                  console.log(response.data)
+                  // console.log('Le choix du magasin a été mis à jour avec succès dans la base de données');
+                  // console.log(response.data)
                 })
                 .catch(error => {
                   console.error('Erreur lors de la mise à jour du choix du magasin dans la base de données - erreur ici:', error);
@@ -209,9 +191,6 @@ const Home =  ({navigation}) => {
                 label: store.nom_magasin,
                 value: store.nom_magasin,
               }))}
-               
-                
-              
             />
 
        {/* Selection Jour */}
@@ -290,7 +269,6 @@ const Home =  ({navigation}) => {
                   dispatch(addTime(formatTime(time.toISOString())));
                   //converti en chaine de caractères
                   console.log('heure commande',formatTime(time))
-                
                   //console.log('selection date store redux:', selectedDateString)
                   //console.log('selection date chaine de caractère:', selectedDateString)
                 }}
@@ -299,20 +277,16 @@ const Home =  ({navigation}) => {
                 }}
               /> 
         )}
-         
-
-        
     
       </View>
       <View style={{flexDirection:'row', gap: 10}}>
-      <Badge visible={cart.length > 0} size={18} style={style.badge}>
-        {totalQuantity}
-      </Badge>
+        <Badge visible={cart.length > 0} size={18} style={style.badge}>
+          {totalQuantity}
+        </Badge>
         <Icon name="shopping-cart" size={30} color="#000" onPress={() => navigation.navigate('panier')} style={style.container}/>
         <Icon name="logout" size={30} color="#000" onPress={() => handleLogout()} />
-       
       </View>
-      </View>
+    </View>
       
 
       {/* categories */}
@@ -412,25 +386,3 @@ export default Home
   //   }
   // ]
  
-  // const categories = [
-  //   {
-  //     categorie:"Sandwich",
-  //     _id:"cat1",
-  //   },
-  //   {
-  //     categorie:"Salade",
-  //     _id:"cat2",
-  //   },
-  //   {
-  //     categorie:"Desserts",
-  //     _id:"cat3",
-  //   },
-  //   {
-  //     categorie:"Boissons",
-  //     _id:"cat4",
-  //   },
-  //   {
-  //     categorie:"Tous",
-  //     _id:"cat5",
-  //   }
-  // ]
