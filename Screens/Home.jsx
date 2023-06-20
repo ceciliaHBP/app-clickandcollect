@@ -20,15 +20,15 @@ const Home =  ({navigation}) => {
   const [date, setDate] = useState(null)
   const [openDate, setOpenDate] = useState(false)
   const dateRedux = useSelector((state) => state.cart.date)
-  console.log('home date',dateRedux)
-  //const [time, setTime] = useState()
-  //const [openTime, setOpenTime] = useState(false)
-  //const timeRedux = useSelector((state) => state.cart.time)
+  //console.log('home date',dateRedux)
+  const [time, setTime] = useState()
+  const [openTime, setOpenTime] = useState(false)
+  const timeRedux = useSelector((state) => state.cart.time)
   //console.log('home time',timeRedux)
  
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
-  //console.log('user page Home', user)
+  console.log('user role', user)
   // const { firstname, lastname, adresse } = user;
   const cart = useSelector((state) => state.cart.cart);
   const selectedStore = useSelector((state) => state.auth.selectedStore);
@@ -39,6 +39,8 @@ const Home =  ({navigation}) => {
   // const [selectedDate, setSelectedDate] = useState(null);
 
   const [stores, setStores] = useState([]);
+  const [role, setRole] = useState('');
+  console.log('role', role)
 
   const allStores = async () => {
     try {
@@ -53,6 +55,19 @@ const Home =  ({navigation}) => {
   useEffect(() => {
     allStores();
   }, []);
+
+  useEffect(() => {
+    // Effectuez une requête GET pour récupérer le rôle de l'utilisateur
+    axios.get(`http://127.0.0.1:8080/getOne/${user.userId}`)
+      .then(response => {
+        console.log(response.data.role)
+        const role  = response.data.role;
+         setRole(role);
+      })
+      .catch(error => {
+        console.error('Erreur lors de la récupération du rôle de l\'utilisateur:', error);
+      });
+  }, [])
 
   //total d'articles dans le panier pour le badge
   const totalQuantity = cart.reduce((total, item) => total + item.qty, 0);
@@ -127,16 +142,16 @@ const Home =  ({navigation}) => {
 
   };
   // heure non formaté pour l'instant - inutile pour les collaborateurs
-  // const formatTime = (dateString) => {
-  //   const time = new Date(dateString);
-  //   //const day = date.getDate().toString().padStart(2, '0');
-  //   //const month = (date.getMonth() + 1).toString().padStart(2, '0');
-  //   //const year = date.getFullYear().toString();
-  //   const hours = time.getHours().toString().padStart(2, '0');
-  //   const minutes = time.getMinutes().toString().padStart(2, '0');
-  //   //return `${day}-${month}-${year} ${hours}h${minutes}`;
-  //   return `${hours}h${minutes}`;
-  // };
+  const formatTime = (dateString) => {
+    const time = new Date(dateString);
+    //const day = date.getDate().toString().padStart(2, '0');
+    //const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    //const year = date.getFullYear().toString();
+    const hours = time.getHours().toString().padStart(2, '0');
+    const minutes = time.getMinutes().toString().padStart(2, '0');
+    //return `${day}-${month}-${year} ${hours}h${minutes}`;
+    return `${hours}h${minutes}`;
+  };
 
   const isTomorrowOrLater = (selectedDate) => {
     const currentDate = new Date();
@@ -257,9 +272,13 @@ const Home =  ({navigation}) => {
 
         {/* Selection Heure */}
         {/* non visible pour les collaborateurs car heure = tournée du camion */}
-        {/* <TouchableOpacity onPress={() => setOpenTime(true)} >
+        
+        {role !== 'collaborateur' && (
+       <TouchableOpacity onPress={() => setOpenTime(true)} >
         <Text>{timeRedux ? <Text style={style.picker}>{timeRedux}</Text> : "Choisissez votre heure"}</Text>
         </TouchableOpacity>
+        )}
+        {role !== 'collaborateur' && (
               <DatePicker
                 modal
                 open={openTime}
@@ -278,8 +297,9 @@ const Home =  ({navigation}) => {
                 onCancel={() => {
                   setOpenTime(false)
                 }}
-              /> */}
-        
+              /> 
+        )}
+         
 
         
     
