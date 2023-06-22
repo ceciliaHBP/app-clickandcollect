@@ -8,9 +8,10 @@ import { useSelector, useDispatch } from 'react-redux'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 
-const ProductCard = ({libelle, id, image, prix, qty  }) => {
+const ProductCard = ({libelle, id, image, prix, qty, stock  }) => {
 
   //console.log('prix product card', prix)
+  //console.log('stock', stock)
 
     const dispatch = useDispatch()
     const cart = useSelector((state) => state.cart.cart);
@@ -105,6 +106,11 @@ const ProductCard = ({libelle, id, image, prix, qty  }) => {
                         >
                             {prix}€
                       </Text>
+                      {/* <Text>
+                        {
+                          stock===0 ?  'stock indispo':'stock ok'             
+                        }
+                      </Text> */}
                       <View style={style.qtyContainer}>
                              <TouchableOpacity
                                 onPress={decrementhandler}

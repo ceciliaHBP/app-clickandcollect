@@ -83,10 +83,12 @@ const Home =  ({navigation}) => {
     const fetchData = async () => {
       try {
       const response = await axios.get('http://127.0.0.1:8080/getAllProducts');
+    
       const updatedProducts = response.data.map((product) => ({
         ...product,
         qty: 0, 
       }));
+      console.log('all products', updatedProducts)
       setProducts(updatedProducts);
       setCategories([...new Set(updatedProducts.map((product) => product.categorie)), 'Tous']);
       // setCategories(updatedProducts.map((product) => product.categorie));
@@ -341,6 +343,7 @@ const Home =  ({navigation}) => {
                   image={item.image}
                   prix={item.prix_unitaire}
                   qty={item.qty}
+                  stock={item.stock}
                 />
               ))}
               </View>
