@@ -11,6 +11,9 @@ import Stores from './Screens/Stores'
 import OrderConfirmation from './Screens/OrderConfirmation'
 import ChoixPaiement from './Screens/ChoixPaiement'
 import  Toast  from 'react-native-toast-message'
+import PaymentScreen from './Screens/PaymentScreen'
+import SuccessPage from './Screens/SuccessPage'
+import EchecPage from './Screens/EchecPage'
 
 
 
@@ -28,6 +31,9 @@ const Main = () => {
             <Stack.Screen name="panier" component={Panier}/>
             <Stack.Screen name="choixpaiement" component={ChoixPaiement}/>
             <Stack.Screen name="orderconfirm" component={OrderConfirmation}/> 
+            <Stack.Screen name="paiement" component={PaymentScreen}/> 
+            <Stack.Screen name="success" component={SuccessPage}/> 
+            <Stack.Screen name="echec" component={EchecPage}/> 
         </Stack.Navigator>
 
         <Toast  position="bottom"/>

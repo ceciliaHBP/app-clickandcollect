@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet} from 'react-native'
 import React from 'react'
 import { Button} from 'react-native-paper'
-import { defaultStyle } from '../styles/styles'
+import { defaultStyle, colors, fonts } from '../styles/styles'
 
 
 const App = ({navigation}) => {
@@ -13,19 +13,17 @@ const App = ({navigation}) => {
         navigation.navigate('login')
     }
   return (
-    <View style={defaultStyle}>
-      <Text>Application Click and collect </Text>
+    <View style={{...defaultStyle, backgroundColor:colors.color1}}>
+    
       <View style={style.container}>
+
+        <Text style={style.title}>Le pain du jour</Text>
      
-             
-            
             <Button
                 style={style.btn} 
                 textColor={'white'} 
                 onPress={navigationToSignUp}
                 >
-
-                  
             S'INSCRIRE
             </Button>
             <Button
@@ -50,10 +48,17 @@ const style = StyleSheet.create({
         marginBottom:70
     },
     btn: {
-        backgroundColor: 'red',
-        margin: 20,
+        backgroundColor: colors.color2,
+        margin: 5,
         padding: 6,
+        borderRadius:6,
       },
+    title:{
+        fontFamily: fonts.font1,
+        textAlign:'center',
+        fontSize:26,
+        color: colors.color3
+    }
 })
 
 export default App

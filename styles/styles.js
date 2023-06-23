@@ -16,3 +16,14 @@ export const inputStyling = StyleSheet.create({
     backgroundColor:'white',
     
   });
+
+export const colors = {
+    color1: "#273545", //fond pain du jour
+    color2: "#E9521B", // orange
+    color3: "#F5F5F5", //gros clair
+};
+export const fonts = {
+    font1: 'Postino', //fond pain du jour
+    font2: "#E9521B", // orange
+   
+};

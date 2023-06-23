@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { defaultStyle} from '../styles/styles'
@@ -7,7 +7,9 @@ import { logoutUser} from '../reducers/authSlice';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const OrderConfirmation = ({navigation}) => {
+
   const dispatch = useDispatch()
+
   const user = useSelector(state => state.auth.user);
   //console.log('user', user)
   const selectedStore = useSelector(state => state.auth.selectedStore);
@@ -26,6 +28,8 @@ const OrderConfirmation = ({navigation}) => {
 const totalQuantity = cartItems.reduce((total, item) => total + item.qty, 0)
 // console.log('qty', totalQuantity)
 
+const [orderInfo, setOrderInfo] = useState(null);
+
 
 const handleLogout = () => {
   dispatch(logoutUser(selectedStore));
@@ -34,6 +38,13 @@ const handleLogout = () => {
 const handleBack = () => {
   navigation.navigate('home');
 };
+useEffect(() => {
+  if (orderInfo && paiement === 'online') {
+    console.log('En ligne');
+    console.log('order', orderInfo);
+    navigation.navigate('paiement', { orderInfo });
+  }
+}, [orderInfo]);
 
 
 //ENVOI DE LA COMMANDE VERS LE SERVER
@@ -50,7 +61,27 @@ const handleBack = () => {
     //console.log('Heure de retrait', selectedTime)
     console.log('type de paiement', paiement)
     console.log('******')
+
+    setOrderInfo({
+      cartItems,
+      user,
+      selectedStore,
+      totalPrice,
+      totalQuantity,
+      selectedDateString,
+      paiement
+    });
+
+    // if (paiement === 'online'){
+    //   console.log('en ligne')
+    //   console.log('order', orderInfo)
+    //   navigation.navigate('paiement', {orderInfo})
+    // }
+    // if (paiement === "onsite"){
+    //   console.log('sur place')
+    // }
   }
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const day = date.getDate().toString().padStart(2, '0');
