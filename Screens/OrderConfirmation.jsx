@@ -1,10 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Linking } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { defaultStyle} from '../styles/styles'
 import { Button} from 'react-native-paper'
 import { logoutUser} from '../reducers/authSlice';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import axios from 'axios';
+import { WebView } from 'react-native-webview';
 
 const OrderConfirmation = ({navigation}) => {
 
@@ -29,6 +31,7 @@ const totalQuantity = cartItems.reduce((total, item) => total + item.qty, 0)
 // console.log('qty', totalQuantity)
 
 const [orderInfo, setOrderInfo] = useState(null);
+const [checkoutSession, setCheckoutSession] = useState(null);
 
 
 const handleLogout = () => {
@@ -38,17 +41,24 @@ const handleLogout = () => {
 const handleBack = () => {
   navigation.navigate('home');
 };
+
 useEffect(() => {
   if (orderInfo && paiement === 'online') {
-    console.log('En ligne');
-    console.log('order', orderInfo);
-    navigation.navigate('paiement', { orderInfo });
+    const submitOrder = async () => {
+      const response = await axios.post('http://localhost:8080/checkout_session', { orderInfo });
+      const sessionUrl = response.data.session;
+      const stripeCheckoutUrl = `${sessionUrl}`;
+      setCheckoutSession(stripeCheckoutUrl);
+      Linking.openURL(sessionUrl);
+    };
+
+    submitOrder();
   }
-}, [orderInfo]);
+}, [orderInfo, paiement]);
 
 
 //ENVOI DE LA COMMANDE VERS LE SERVER
-  const submitHandler = () => {
+  const submitHandler = async () => {
     console.log('******')
     console.log('Envoi de la commande au serveur - test')
     console.log('Contenu du panier :', cartItems);
@@ -71,15 +81,7 @@ useEffect(() => {
       selectedDateString,
       paiement
     });
-
-    // if (paiement === 'online'){
-    //   console.log('en ligne')
-    //   console.log('order', orderInfo)
-    //   navigation.navigate('paiement', {orderInfo})
-    // }
-    // if (paiement === "onsite"){
-    //   console.log('sur place')
-    // }
+    
   }
 
   const formatDate = (dateString) => {
@@ -90,6 +92,31 @@ useEffect(() => {
     const hours = date.getHours().toString().padStart(2, '0');
     const minutes = date.getMinutes().toString().padStart(2, '0');
     return `${day}-${month}-${year} ${hours}h${minutes}`;
+  };
+
+  const handleNavigationChange = (navState) => {
+    // navState est un objet qui contient des informations sur l'état de navigation actuel.
+    // navState.url est l'URL actuelle dans le WebView.
+
+    // Vérifiez si l'URL actuelle est l'URL de succès.
+    if (navState.url.startsWith('http://localhost:8080/success')) {
+      // Le paiement a réussi, fermez le WebView et redirigez l'utilisateur vers la page de succès.
+      setCheckoutSession(null);
+      console.log('ok')
+      navigation.navigate('success');
+      // Ici, vous pouvez également mettre à jour l'état de votre application pour refléter le succès du paiement.
+    }
+
+    // Vérifiez si l'URL actuelle est l'URL d'annulation.
+    if (navState.url.startsWith('http://localhost:8080/cancel')) {
+      // Le paiement a été annulé, fermez le WebView et redirigez l'utilisateur vers la page d'annulation.
+      setCheckoutSession(null);
+      console.log('nok')
+      navigation.navigate('echec');
+      // Ici, vous pouvez également mettre à jour l'état de votre application pour refléter l'annulation du paiement.
+    }
+
+   
   };
  
   // Utilisez les informations récupérées pour afficher les détails de la commande
@@ -143,7 +170,7 @@ useEffect(() => {
           : <Text>Choix du paiement : <Text style={{color:'lightgray', fontStyle:'italic'}}>Non renseigné</Text></Text>
         }
         
-        <Text>Magasin : {selectedStore.nom_magasin}</Text>
+      <Text>Magasin : {selectedStore.nom_magasin}</Text>
       </View>
       <Button
                 style={styles.btn} 
@@ -151,8 +178,9 @@ useEffect(() => {
                 onPress={submitHandler}
                 >
                 VALIDER
-            </Button>
-      
+      </Button>
+      {checkoutSession && <WebView source={{ uri: checkoutSession }} onNavigationStateChange={handleNavigationChange} />}
+
      
     </View>
     </ScrollView>
