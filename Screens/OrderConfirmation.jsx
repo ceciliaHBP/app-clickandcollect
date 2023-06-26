@@ -11,6 +11,7 @@ import { WebView } from 'react-native-webview';
 const OrderConfirmation = ({navigation}) => {
 
   const dispatch = useDispatch()
+  // const webViewRef = useRef(null);
 
   const user = useSelector(state => state.auth.user);
   //console.log('user', user)
@@ -101,9 +102,10 @@ useEffect(() => {
     // Vérifiez si l'URL actuelle est l'URL de succès.
     if (navState.url.startsWith('http://localhost:8080/success')) {
       // Le paiement a réussi, fermez le WebView et redirigez l'utilisateur vers la page de succès.
+      navigation.navigate('success');
       setCheckoutSession(null);
       console.log('ok')
-      navigation.navigate('success');
+     
       // Ici, vous pouvez également mettre à jour l'état de votre application pour refléter le succès du paiement.
     }
 

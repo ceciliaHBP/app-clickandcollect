@@ -18,6 +18,14 @@ const App = ({navigation}) => {
       <View style={style.container}>
 
         <Text style={style.title}>Le pain du jour</Text>
+        <Text style={style.title2}>Click'n'Collect</Text>
+
+        <View style={style.container_slogan}>
+            <Text style={style.slogan}>Cliquez</Text>
+            <Text style={style.slogan}>Conduisez</Text>
+            <Text style={style.slogan}>Savourez.</Text>
+        </View>
+       
      
             <Button
                 style={style.btn} 
@@ -52,12 +60,30 @@ const style = StyleSheet.create({
         margin: 5,
         padding: 6,
         borderRadius:6,
+        marginHorizontal:40
       },
     title:{
         fontFamily: fonts.font1,
         textAlign:'center',
         fontSize:26,
         color: colors.color3
+    },
+    title2:{
+        color: colors.color3,
+        textAlign:'center',
+        fontSize:24,
+        fontFamily: fonts.font3
+    },
+    container_slogan:{
+        flexDirection:'column',
+        alignItems:'center',
+        marginVertical:20
+    },
+    slogan:{
+        color: colors.color2,
+        fontSize:25,
+        // fontFamily: fonts.font2,
+        fontWeight:400,
     }
 })
 
