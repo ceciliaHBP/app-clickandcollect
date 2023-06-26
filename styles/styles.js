@@ -1,9 +1,9 @@
 import { StyleSheet, Platform, StatusBar } from "react-native";
 
 export const defaultStyle = StyleSheet.create({
-    padding: 35,
+    padding: 5,
     paddingTop: Platform.OS === "ios" ? StatusBar.currentHeight : 0,
-    // paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    //paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     flex: 1,
     
 });
@@ -11,8 +11,8 @@ export const defaultStyle = StyleSheet.create({
 
 export const inputStyling = StyleSheet.create({
     height: 50,
-    marginVertical: 10,
-    marginHorizontal: 20,
+    marginVertical: 0,
+    // marginHorizontal: 20,
     backgroundColor:'white',
     
   });
@@ -20,10 +20,11 @@ export const inputStyling = StyleSheet.create({
 export const colors = {
     color1: "#273545", //fond pain du jour
     color2: "#E9521B", // orange
-    color3: "#F5F5F5", //gros clair
+    color3: "#F5F5F5", //gris clair
 };
 export const fonts = {
-    font1: 'Postino', //fond pain du jour
-    font2: "#E9521B", // orange
+    font1: 'Postino', 
+    font2: 'Montserrat-Regular', 
+    font3: 'Montserrat-Italic',
    
 };

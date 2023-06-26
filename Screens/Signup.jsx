@@ -2,16 +2,17 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React, { useState} from 'react'
 import { Button, TextInput } from 'react-native-paper' 
 import axios from 'axios'
-import { defaultStyle, inputStyling } from '../styles/styles'
+import { defaultStyle, inputStyling, fonts, colors } from '../styles/styles'
 import { registerUser } from '../reducers/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import {Toast} from 'react-native-toast-message/lib/src/Toast';
-
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import { validateLastName, validateFirstName, validateEmail, validatePassword} from '../validation/validationInput'
 
 const inputOptions = {
     style:inputStyling,
     mode:"outlined",
+    outlineColor:'white',
 }
 
 
@@ -73,16 +74,31 @@ const Signup = ({navigation}) => {
    
     // console.log('test')
   }
+  const handleBack = () => {
+    navigation.navigate('app');
+  };
 
   return (
     <View style={defaultStyle}>
 
       
       <View style={style.container}>
-      <Text style={style.title}>Veuillez renseigner les différents champs pour créer votre compte</Text>
+        <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between', marginVertical:20}}>
+            <View>
+              <Text style={style.title}>Incription</Text>
+              <Text style={style.pain}>Le pain du jour</Text>
+            </View>
+          <TouchableOpacity onPress={handleBack} style={style.back}>
+           <Icon name="keyboard-arrow-left" size={30} color="#fff" />
+         </TouchableOpacity>
+         
+           
+        </View>
+      
+      <Text style={style.label}>Nom</Text>
       <TextInput 
        {...inputOptions}
-        placeholder='Nom'
+        // placeholder='Nom'
         keyboardType='default'
         value={lastname}
         // onChangeText={setLastName}
@@ -94,9 +110,10 @@ const Signup = ({navigation}) => {
       />
       {error.lastname ? <Text style={{color: 'red', textAlign:'center'}}>{error.lastname}</Text> : null}
 
+      <Text style={style.label}>Prénom</Text>
       <TextInput 
         {...inputOptions}
-        placeholder='Prénom'
+        // placeholder='Prénom'
         keyboardType='default'
         value={firstname}
         // onChangeText={setFirstName}
@@ -108,9 +125,10 @@ const Signup = ({navigation}) => {
       />
       {error.firstname ? <Text style={{color: 'red', textAlign:'center'}}>{error.firstname}</Text> : null}
 
+      <Text style={style.label}>Adresse e-mail</Text>
       <TextInput 
         {...inputOptions}
-        placeholder='Email'
+        // placeholder='Email'
         keyboardType='email-address'
         value={email}
         // onChangeText={setEmail}
@@ -122,9 +140,10 @@ const Signup = ({navigation}) => {
       />
        {error.email ? <Text style={{color: 'red', textAlign:'center'}}>{error.email}</Text> : null}
     
+      <Text style={style.label}>Mot de passe</Text>
       <TextInput 
         {...inputOptions}
-        placeholder='Mot de passe'
+        // placeholder='Mot de passe'
         secureTextEntry={true}
         value={password}
         // onChangeText={setPassword}
@@ -165,7 +184,7 @@ const style = StyleSheet.create({
         justifyContent:'center',
         //reajustement margin pour laisser de la place au footer
         // marginBottom:70
-        backgroundColor:'white'
+        backgroundColor:colors.color3
     },
   inputOpts : {
     height:50,
@@ -173,21 +192,43 @@ const style = StyleSheet.create({
     marginVertical:10,
   },
   btn: {
-    backgroundColor: 'red',
-    margin: 20,
+    backgroundColor: colors.color2,
+    margin: 5,
     padding: 6,
+    borderRadius:6,
+    marginHorizontal:40,
+    marginTop:40
+  },
+  back:{
+    backgroundColor: colors.color1,
+    width:50,
+    height:50,
+    marginRight:30,
+    borderRadius:10,
+    justifyContent:'center',
+    alignItems:'center'
   },
   title:{
-    textAlign:'center',
-    fontWeight:'bold',
-    marginVertical:20
+    marginVertical:5,
+    color:colors.color2,
+    fontSize:33,
+    fontWeight:900,
+  },
+  pain:{
+    fontStyle:'italic',
+    fontSize:22,
   },
   login:{
     textAlign:'center',
-    color:'red',
+    color:colors.color2,
     fontWeight:'bold',
     marginVertical:10
-}
+  },
+  label:{
+    // marginLeft:20,
+   marginTop:10,
+    color:colors.color2
+  }
 })
 
 export default Signup
