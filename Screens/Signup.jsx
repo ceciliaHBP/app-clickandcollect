@@ -89,10 +89,8 @@ const Signup = ({navigation}) => {
               <Text style={style.pain}>Le pain du jour</Text>
             </View>
           <TouchableOpacity onPress={handleBack} style={style.back}>
-           <Icon name="keyboard-arrow-left" size={30} color="#fff" />
+           <Icon name="keyboard-arrow-left" size={20} color="#fff" />
          </TouchableOpacity>
-         
-           
         </View>
       
       <Text style={style.label}>Nom</Text>
@@ -201,10 +199,9 @@ const style = StyleSheet.create({
   },
   back:{
     backgroundColor: colors.color1,
-    width:50,
-    height:50,
-    marginRight:30,
-    borderRadius:10,
+    width:40,
+    height:40,
+    borderRadius:5,
     justifyContent:'center',
     alignItems:'center'
   },

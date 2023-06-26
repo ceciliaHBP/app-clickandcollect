@@ -1,12 +1,13 @@
 import { View, Text, StyleSheet, TouchableOpacity} from 'react-native'
 import React, {useState} from 'react'
-import { defaultStyle, inputStyling } from '../styles/styles'
+import { defaultStyle, inputStyling, colors } from '../styles/styles'
 import { Button, TextInput } from 'react-native-paper'
 // import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import { useDispatch, useSelector} from 'react-redux'
 import { loginUser, updateSelectedStore } from '../reducers/authSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Toast} from 'react-native-toast-message/lib/src/Toast';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import axios from 'axios'
 
@@ -14,6 +15,7 @@ import axios from 'axios'
 const inputOptions = {
     style:inputStyling,
     mode:"outlined",
+    outlineColor:'white',
 }
 
 
@@ -81,6 +83,9 @@ const Login = ({navigation}) => {
               });
         }
     }
+    const handleBack = () => {
+        navigation.navigate('app');
+      };
     
   return (
     <View style={defaultStyle}>
@@ -89,17 +94,28 @@ const Login = ({navigation}) => {
         </TouchableOpacity> */}
       
       <View style={style.container}>
-            <Text style={style.title}>Le pain du Jour</Text>
+      <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between', marginVertical:20}}>
+            <View>
+              <Text style={style.title}>Connexion</Text>
+              <Text style={style.pain}>Le pain du jour</Text>
+            </View>
+          <TouchableOpacity onPress={handleBack} style={style.back}>
+           <Icon name="keyboard-arrow-left" size={20} color="#fff" />
+         </TouchableOpacity>
+        </View>
+            <Text style={style.label}>Adresse e-mail</Text>
             <TextInput
                 {...inputOptions} 
-                placeholder='Email' 
+                // placeholder='Email' 
                 keyboardType='email-address'
                 value={email} 
                 onChangeText={setEmail}
             />
+
+            <Text style={style.label}>Mot de passe</Text> 
             <TextInput 
                 {...inputOptions} 
-                placeholder='Mot de passe' 
+                // placeholder='Mot de passe' 
                 secureTextEntry={true}
                 value={password} 
                 onChangeText={setPassword}
@@ -131,24 +147,50 @@ const style = StyleSheet.create({
         justifyContent:'center',
         //reajustement margin pour laisser de la place au footer
         // marginBottom:70,
-        backgroundColor:'white', 
+        backgroundColor:colors.color3,
         borderRadius:10,
     },
+    // title:{
+    //     textAlign:'center',
+    //     margin: 20,
+    // },
     title:{
-        textAlign:'center',
-        margin: 20,
-    },
+        marginVertical:5,
+        color:colors.color2,
+        fontSize:33,
+        fontWeight:900,
+      },
+      pain:{
+        fontStyle:'italic',
+        fontSize:22,
+      },
+      back:{
+        backgroundColor: colors.color1,
+        width:40,
+        height:40,
+        borderRadius:5,
+        justifyContent:'center',
+        alignItems:'center'
+      },
     btn: {
-        backgroundColor: 'red',
-        margin: 20,
+        backgroundColor: colors.color2,
+        margin: 5,
         padding: 6,
+        borderRadius:6,
+        marginHorizontal:40,
+        marginTop:40
       },
     signup:{
         textAlign:'center',
-        color:'red',
+        color:colors.color2,
         fontWeight:'bold',
         marginVertical:10
-    }
+    },
+    label:{
+        // marginLeft:20,
+       marginTop:10,
+        color:colors.color2
+      }
 })
 
 export default Login
