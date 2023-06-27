@@ -8,14 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* app_mobileTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* app_mobileTests.m */; };
-		0C80B921A6F3F58F76C31292 /* libPods-app_mobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-app_mobile.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		1B0D681B2A2F255600DAB7FB /* app_mobileTests.xctest in Resources */ = {isa = PBXBuildFile; fileRef = 00E356EE1AD99517003FC87E /* app_mobileTests.xctest */; };
 		1B0D68232A2F3A1C00DAB7FB /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1B0D68222A2F3A1C00DAB7FB /* MaterialIcons.ttf */; };
-		1B45E8082A28C98A00017AA6 /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 1B45E8072A28C98A00017AA6 /* Fonts */; };
-		1BC5850E2A439DA5009C5758 /* Postino Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1BC5850D2A439DA5009C5758 /* Postino Italic.ttf */; };
+		1B2074102A4875760080DC16 /* Montserrat-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1B20740F2A4875760080DC16 /* Montserrat-Italic.ttf */; };
+		1B532D852A487BA20019D8DA /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1B532D842A487BA20019D8DA /* Montserrat-Regular.ttf */; };
+		1B532D872A487BCE0019D8DA /* Montserrat-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1B532D862A487BCD0019D8DA /* Montserrat-Black.ttf */; };
+		1B9D4F962A4ACACD00519F43 /* Postino Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1B9D4F952A4ACACD00519F43 /* Postino Italic.ttf */; };
+		1B9D4F982A4B193C00519F43 /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 1B45E8072A28C98A00017AA6 /* Fonts */; };
+		2BF564C21ED62C06199825BB /* libPods-app_mobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-app_mobile.a */; };
 		7699B88040F8A987B510C191 /* libPods-app_mobile-app_mobileTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-app_mobile-app_mobileTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -41,8 +43,11 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = app_mobile/main.m; sourceTree = "<group>"; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-app_mobile-app_mobileTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-app_mobile-app_mobileTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B0D68222A2F3A1C00DAB7FB /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
+		1B20740F2A4875760080DC16 /* Montserrat-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Montserrat-Italic.ttf"; path = "../assets/Fonts/Montserrat-Italic.ttf"; sourceTree = "<group>"; };
 		1B45E8072A28C98A00017AA6 /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Fonts; path = "../node_modules/react-native-vector-icons/Fonts"; sourceTree = "<group>"; };
-		1BC5850D2A439DA5009C5758 /* Postino Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Postino Italic.ttf"; path = "../assets/Fonts/Postino Italic.ttf"; sourceTree = "<group>"; };
+		1B532D842A487BA20019D8DA /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Montserrat-Regular.ttf"; path = "../assets/Fonts/Montserrat-Regular.ttf"; sourceTree = "<group>"; };
+		1B532D862A487BCD0019D8DA /* Montserrat-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Montserrat-Black.ttf"; path = "../assets/Fonts/Montserrat-Black.ttf"; sourceTree = "<group>"; };
+		1B9D4F952A4ACACD00519F43 /* Postino Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Postino Italic.ttf"; path = "../../../../Downloads/Postino Italic/Postino Italic.ttf"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-app_mobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-app_mobile.debug.xcconfig"; path = "Target Support Files/Pods-app_mobile/Pods-app_mobile.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-app_mobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-app_mobile.release.xcconfig"; path = "Target Support Files/Pods-app_mobile/Pods-app_mobile.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-app_mobile-app_mobileTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-app_mobile-app_mobileTests.debug.xcconfig"; path = "Target Support Files/Pods-app_mobile-app_mobileTests/Pods-app_mobile-app_mobileTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -65,7 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C80B921A6F3F58F76C31292 /* libPods-app_mobile.a in Frameworks */,
+				2BF564C21ED62C06199825BB /* libPods-app_mobile.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,8 +100,11 @@
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
+				1B9D4F952A4ACACD00519F43 /* Postino Italic.ttf */,
 				1B0D68222A2F3A1C00DAB7FB /* MaterialIcons.ttf */,
-				1BC5850D2A439DA5009C5758 /* Postino Italic.ttf */,
+				1B532D842A487BA20019D8DA /* Montserrat-Regular.ttf */,
+				1B20740F2A4875760080DC16 /* Montserrat-Italic.ttf */,
+				1B532D862A487BCD0019D8DA /* Montserrat-Black.ttf */,
 				1B45E8072A28C98A00017AA6 /* Fonts */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
@@ -208,7 +216,8 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1210;
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
@@ -243,7 +252,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1B0D681B2A2F255600DAB7FB /* app_mobileTests.xctest in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -251,11 +259,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1B45E8082A28C98A00017AA6 /* Fonts in Resources */,
-				1B0D68232A2F3A1C00DAB7FB /* MaterialIcons.ttf in Resources */,
-				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
-				1BC5850E2A439DA5009C5758 /* Postino Italic.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				1B0D68232A2F3A1C00DAB7FB /* MaterialIcons.ttf in Resources */,
+				1B532D852A487BA20019D8DA /* Montserrat-Regular.ttf in Resources */,
+				1B9D4F962A4ACACD00519F43 /* Postino Italic.ttf in Resources */,
+				1B532D872A487BCE0019D8DA /* Montserrat-Black.ttf in Resources */,
+				1B2074102A4875760080DC16 /* Montserrat-Italic.ttf in Resources */,
+				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
+				1B9D4F982A4B193C00519F43 /* Fonts in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -444,6 +455,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5B7EB9410499542E8C5724F5 /* Pods-app_mobile-app_mobileTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -471,6 +483,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 89C6BE57DB24E9ADA2F236DE /* Pods-app_mobile-app_mobileTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = app_mobileTests/Info.plist;
@@ -585,7 +598,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = NO;
+				ENABLE_TESTABILITY = YES;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;

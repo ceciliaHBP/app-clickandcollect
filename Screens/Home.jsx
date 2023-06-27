@@ -1,7 +1,7 @@
-import { View, Text, Pressable, ScrollView , StyleSheet, Button } from 'react-native'
+import {Alert,  View, Text, Pressable, ScrollView , StyleSheet } from 'react-native'
  import  Picker  from 'react-native-picker-select';
 import { defaultStyle} from '../styles/styles'
-import React, {useState, useEffect }from 'react'
+import React, {useState, useEffect, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { logoutUser, updateSelectedStore, updateUser} from '../reducers/authSlice';
 import { addDate, addTime, resetDateTime} from '../reducers/cartSlice';
@@ -9,7 +9,6 @@ import ProductCard from '../components/ProductCard'
 import axios from 'axios'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import DatePicker from 'react-native-date-picker'
-
 import { Badge } from 'react-native-paper';
 import { TouchableOpacity } from 'react-native';
 import {Toast} from 'react-native-toast-message/lib/src/Toast';
@@ -31,6 +30,7 @@ const Home =  ({navigation}) => {
   //console.log('user role', user)
   // const { firstname, lastname, adresse } = user;
   const cart = useSelector((state) => state.cart.cart);
+  console.log('cart home', cart)
   const selectedStore = useSelector((state) => state.auth.selectedStore);
   //const selectedDateString = useSelector((state) => state.cart.date); //chaine de caractère
   //const selectedDate = new Date(selectedDateString); //objet Date
@@ -88,7 +88,7 @@ const Home =  ({navigation}) => {
         ...product,
         qty: 0, 
       }));
-      console.log('all products', updatedProducts)
+      //console.log('all products', updatedProducts)
       setProducts(updatedProducts);
       setCategories([...new Set(updatedProducts.map((product) => product.categorie)), 'Tous']);
       // setCategories(updatedProducts.map((product) => product.categorie));
@@ -151,11 +151,10 @@ const Home =  ({navigation}) => {
 
   return (
     <>
-    <View style={{...defaultStyle, alignItems:'center', flex:1, paddingHorizontal:5}}>
+    <View style={{...defaultStyle, alignItems:'center', flex:1, paddingHorizontal:5, paddingVertical:20}}>
+   
       <View style={{flexDirection:'row', width: "100%", justifyContent:"space-around"}}>
       <View>
-        <Text>Home</Text>
-        
         {
           user && <Text>Bonjour {user.firstname} {user.lastname} </Text>
         }

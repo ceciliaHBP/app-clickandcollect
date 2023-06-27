@@ -1,4 +1,3 @@
-import { View, Text } from 'react-native'
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
@@ -18,9 +17,22 @@ import EchecPage from './Screens/EchecPage'
 
 const Main = () => {
 
+
+const linking = {
+  prefixes: ['clickandcollect://'],
+  config: {
+    screens: {
+      success: 'success',
+      echec: 'echec',
+      // Ajoutez d'autres routes ici
+    },
+  },
+};
+  
+
     const Stack = createNativeStackNavigator();
   return (
-    <NavigationContainer>
+    <NavigationContainer linking={linking}>
         <Stack.Navigator initialRouteName='app' screenOptions={{headerShown:false}}>
             <Stack.Screen name="app" component={App}/>
             <Stack.Screen name="login" component={Login}/>

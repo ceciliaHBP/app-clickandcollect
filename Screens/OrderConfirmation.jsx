@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Linking } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { defaultStyle} from '../styles/styles'
@@ -11,7 +11,8 @@ import { WebView } from 'react-native-webview';
 const OrderConfirmation = ({navigation}) => {
 
   const dispatch = useDispatch()
-  // const webViewRef = useRef(null);
+  const webViewRef = useRef(null);
+
 
   const user = useSelector(state => state.auth.user);
   //console.log('user', user)
@@ -20,9 +21,9 @@ const OrderConfirmation = ({navigation}) => {
   const selectedDateString = useSelector((state) => state.cart.date)
   //const selectedTime = useSelector((state) => state.cart.time)
   const paiement = useSelector((state) => state.cart.paiement)
-  console.log('date store', selectedDateString)
+  //console.log('date store', selectedDateString)
   //console.log('time store', selectedTime)
-  console.log('paiement store', paiement)
+  //console.log('paiement store', paiement)
   //console.log('cart items', cartItems)
   // const totalPrice = cartItems.reduce((total, item) => total + item.qty * item.prix, 0);
   const totalPrice = (cartItems.reduce((total, item) => total + item.qty * item.prix_unitaire, 0)).toFixed(2);
@@ -33,7 +34,8 @@ const totalQuantity = cartItems.reduce((total, item) => total + item.qty, 0)
 
 const [orderInfo, setOrderInfo] = useState(null);
 const [checkoutSession, setCheckoutSession] = useState(null);
-
+const [sessionId, setSessionId] = useState(null);
+const [paymentStatus, setPaymentStatus] = useState(null);
 
 const handleLogout = () => {
   dispatch(logoutUser(selectedStore));
@@ -48,6 +50,9 @@ useEffect(() => {
     const submitOrder = async () => {
       const response = await axios.post('http://localhost:8080/checkout_session', { orderInfo });
       const sessionUrl = response.data.session;
+      const sessionId = response.data.id
+      //console.log('data id', sessionId)
+      setSessionId(sessionId);
       const stripeCheckoutUrl = `${sessionUrl}`;
       setCheckoutSession(stripeCheckoutUrl);
       Linking.openURL(sessionUrl);
@@ -56,6 +61,12 @@ useEffect(() => {
     submitOrder();
   }
 }, [orderInfo, paiement]);
+
+useEffect(() => {
+  if (checkoutSession) {
+    checkPaymentStatus();
+  }
+}, [checkoutSession]);
 
 
 //ENVOI DE LA COMMANDE VERS LE SERVER
@@ -84,45 +95,63 @@ useEffect(() => {
     });
     
   }
+  //test deeplinkg
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear().toString();
-    const hours = date.getHours().toString().padStart(2, '0');
-    const minutes = date.getMinutes().toString().padStart(2, '0');
-    return `${day}-${month}-${year} ${hours}h${minutes}`;
-  };
 
-  const handleNavigationChange = (navState) => {
-    // navState est un objet qui contient des informations sur l'état de navigation actuel.
-    // navState.url est l'URL actuelle dans le WebView.
 
-    // Vérifiez si l'URL actuelle est l'URL de succès.
-    if (navState.url.startsWith('http://localhost:8080/success')) {
-      // Le paiement a réussi, fermez le WebView et redirigez l'utilisateur vers la page de succès.
-      navigation.navigate('success');
-      setCheckoutSession(null);
-      console.log('ok')
-     
-      // Ici, vous pouvez également mettre à jour l'état de votre application pour refléter le succès du paiement.
+  useEffect(() => {
+    let id = null;
+  
+    if (sessionId) {
+      // Vérifiez l'état du paiement toutes les 2 secondes
+      id = setInterval(() => {
+        checkPaymentStatus();
+      }, 2000);
     }
+  
+    // Nettoyez l'intervalle lorsque le composant est démonté ou lorsque l'ID de session change
+    return () => {
+      if (id) {
+        clearInterval(id);
+      }
+    };
+  }, [sessionId]);
 
-    // Vérifiez si l'URL actuelle est l'URL d'annulation.
-    if (navState.url.startsWith('http://localhost:8080/cancel')) {
-      // Le paiement a été annulé, fermez le WebView et redirigez l'utilisateur vers la page d'annulation.
-      setCheckoutSession(null);
-      console.log('nok')
-      navigation.navigate('echec');
-      // Ici, vous pouvez également mettre à jour l'état de votre application pour refléter l'annulation du paiement.
-    }
-
+// Vérifier l'état du paiement
+const checkPaymentStatus = async () => {
+  try {
+    const response = await axios.get(`http://localhost:8080/paiementStatus?sessionId=${sessionId}`);
+    console.log('response front', response)
+     const { status } = response.data;
+     //rajouter idPayment
    
-  };
- 
-  // Utilisez les informations récupérées pour afficher les détails de la commande
-  return (
+  //   if (status === 'paid') {
+  //     setSessionId(null); // Cela déclenchera le nettoyage de l'intervalle dans le hook useEffect
+  //     console.log('stop interval')
+  //     navigation.navigate('success')
+  //     //mettre à jour commande avec idpayment
+  //   }
+    
+  //   setPaymentStatus(status);
+  //   // console.log('Payment ID:', paymentId);
+  } catch (error) {
+    console.error('Erreur lors de la vérification de l\'état du paiement :', error);
+    // navigation.navigate('echec')
+  }
+};
+
+
+  // const formatDate = (dateString) => {
+  //   const date = new Date(dateString);
+  //   const day = date.getDate().toString().padStart(2, '0');
+  //   const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  //   const year = date.getFullYear().toString();
+  //   const hours = date.getHours().toString().padStart(2, '0');
+  //   const minutes = date.getMinutes().toString().padStart(2, '0');
+  //   return `${day}-${month}-${year} ${hours}h${minutes}`;
+  // };
+
+   return (
     <View style={{ ...defaultStyle, alignItems: 'center', backgroundColor: 'white', margin: 30, paddingHorizontal: 5 , paddingTop:10}}>
 
       <View style={{flexDirection:'row', justifyContent:'space-between', width:"100%"}}>
@@ -181,7 +210,8 @@ useEffect(() => {
                 >
                 VALIDER
       </Button>
-      {checkoutSession && <WebView source={{ uri: checkoutSession }} onNavigationStateChange={handleNavigationChange} />}
+      {/* {checkoutSession && <WebView ref={webViewRef} source={{ uri: checkoutSession }} onNavigationStateChange={handleNavigationChange} />} */}
+      {checkoutSession && <WebView ref={webViewRef} source={{ uri: checkoutSession }} />}
 
      
     </View>

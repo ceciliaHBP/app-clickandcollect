@@ -63,7 +63,7 @@ const style = StyleSheet.create({
         marginHorizontal:40
       },
     title:{
-        fontFamily: fonts.font1,
+        // fontFamily: fonts.font1,
         textAlign:'center',
         fontSize:26,
         color: colors.color3
@@ -72,7 +72,7 @@ const style = StyleSheet.create({
         color: colors.color3,
         textAlign:'center',
         fontSize:24,
-        fontFamily: fonts.font3
+        // fontFamily: fonts.font3
     },
     container_slogan:{
         flexDirection:'column',
